@@ -8,6 +8,7 @@
     "build": "pnpm --filter web build"
   },
   "devDependencies": {
+    "next": "15.0.3",
     "typescript": "^5.6.3"
   },
   "dependencies": {
