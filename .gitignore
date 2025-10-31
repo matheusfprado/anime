@@ -1,0 +1,60 @@
+# dependências
+node_modules/
+.pnp
+.pnp.js
+.pnp.cjs
+
+# compilação / build
+.next/
+out/
+dist/
+build/
+
+# cache
+.cache/
+.next/cache/
+.yarn/cache/
+.pnpm-store/
+*.tsbuildinfo
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDE / editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# uploads e arquivos gerados
+/public/uploads/
+public/temp/
+tmp/
+*.bak
+
+# testes
+coverage/
+jest-cache/
+jest-stare/
+
+# lockfile alternativos (caso troque gerenciador)
+package-lock.json
+yarn.lock
+
+# type checking / eslint / prettier
+.eslintcache
+.prettier-cache/

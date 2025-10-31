@@ -1,58 +1,18 @@
-const STREAMING_LINKS: Record<
-  string,
-  { name: string; url: string; logo: string }[]
-> = {
-  Naruto: [
-    {
-      name: "Crunchyroll",
-      url: "https://www.crunchyroll.com/pt-br/series/GY9PJ5KWR/naruto",
-      logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuYqvon-yjtpL4ZJEK4n2vrVyiBjcBlTWWNMr7MdmZJzAWOqPEoerIp-jeGAC85qRxJCU&usqp=CAU",
-    },
-    {
-      name: "Netflix",
-      url: "https://www.netflix.com/br/title/70205012",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Netflix-new-icon.png/250px-Netflix-new-icon.png",
-    },
-  ],
-  "One Piece": [
-    {
-      name: "Crunchyroll",
-      url: "https://www.crunchyroll.com/pt-br/series/GRMG8ZQZR/one-piece",
-      logo: "/logos/crunchyroll.png",
-    },
-  ],
-  "Attack on Titan": [
-    {
-      name: "Crunchyroll",
-      url: "https://www.crunchyroll.com/pt-br/series/GR751KNZY/attack-on-titan",
-      logo: "/logos/crunchyroll.png",
-    },
-    {
-      name: "Netflix",
-      url: "https://www.netflix.com/br/title/81074479",
-      logo: "/logos/netflix.png",
-    },
-  ],
-  "Demon Slayer": [
-    {
-      name: "Crunchyroll",
-      url: "https://www.crunchyroll.com/pt-br/series/GY5P48XEY/demon-slayer-kimetsu-no-yaiba",
-      logo: "/logos/crunchyroll.png",
-    },
-  ],
+"use client";
+
+import { StreamingLink } from "@/types/anime";
+
+type WatchLinksProps = {
+  links: StreamingLink[];
 };
 
-export function WatchLinks({ title }: { title: string }) {
-  const links = STREAMING_LINKS[title] || [];
-
-  if (links.length === 0) return null;
-
+export function WatchLinks({ links }: WatchLinksProps) {
   return (
     <section>
-      <h2 className="text-3xl font-extrabold text-yellow-300 mb-5 flex items-center gap-3">
+      <h2 className="mb-5 flex items-center gap-3 text-3xl font-extrabold text-yellow-300">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="w-7 h-7 text-yellow-400"
+          className="h-7 w-7 text-yellow-400"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -66,27 +26,28 @@ export function WatchLinks({ title }: { title: string }) {
         </svg>
         Onde Assistir
       </h2>
-
-      <div className="flex flex-wrap gap-5">
-        {links.map((stream) => (
-          <a
-            key={stream.url}
-            href={stream.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 bg-zinc-900/70 border border-white/10 hover:border-yellow-400/50 rounded-xl px-4 py-3 transition-all hover:shadow-[0_0_15px_rgba(255,200,0,0.3)]"
-          >
-            <img
-              src={stream.logo}
-              alt={stream.name}
-              className="h-6 w-auto object-contain"
-            />
-            <span className="text-sm text-zinc-200 font-medium">
-              {stream.name}
-            </span>
-          </a>
-        ))}
-      </div>
+      {links.length === 0 ? (
+        <p className="text-sm text-zinc-300">
+          Nenhuma plataforma oficial encontrada automaticamente. Recomendamos
+          consultar serviços populares de streaming ou a página oficial do anime.
+        </p>
+      ) : (
+        <div className="flex flex-wrap gap-5">
+          {links.map((stream) => (
+            <a
+              key={stream.url}
+              href={stream.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 rounded-xl border border-white/10 bg-zinc-900/70 px-4 py-3 transition-all hover:border-yellow-400/50 hover:shadow-[0_0_15px_rgba(255,200,0,0.3)]"
+            >
+              <span className="text-sm font-medium text-zinc-200">
+                {stream.name}
+              </span>
+            </a>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
