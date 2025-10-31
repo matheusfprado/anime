@@ -6,6 +6,7 @@ node_modules/
 
 # compilação / build
 .next/
+apps/web/.next/
 out/
 dist/
 build/
@@ -30,6 +31,7 @@ Thumbs.db
 # IDE / editores
 .vscode/
 .idea/
+.vercel/
 *.swp
 *.swo
 
