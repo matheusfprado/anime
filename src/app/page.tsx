@@ -2,11 +2,18 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import {
+  LORE_SPOTLIGHTS,
+  COLLECTIBLE_DROPS,
+  COMMUNITY_TRACKS,
+  EVENT_SCHEDULE,
+  TECH_STACKS,
+} from "@/app/data/hubContent";
 
 const featureLinks = [
-  { label: "Catálogo completo", href: "/animes" },
-  { label: "Sessões ao vivo", href: "/animes" },
-  { label: "Sobre o projeto", href: "/sobre" },
+  { label: "Lore & Teorias", href: "/lore" },
+  { label: "Guildas & Comunidade", href: "/comunidade" },
+  { label: "Eventos & Watch Parties", href: "/eventos" },
 ];
 
 export default function Home() {
@@ -34,25 +41,37 @@ export default function Home() {
                 Anime
               </span>
               <span className="text-white drop-shadow-[0_8px_30px_rgba(0,0,0,0.45)]">Verse</span>
+              <span className="text-sm font-semibold uppercase tracking-[0.35em] text-yellow-200 md:text-base">
+                hub geek
+              </span>
             </h1>
-            <p className="mt-4 max-w-2xl text-base text-zinc-200 md:text-lg">
-              Energia laranja, contraste preto. Um lançamento elegante para escolher o próximo episódio sem perder tempo.
+            <p className="mt-4 max-w-3xl text-base text-zinc-200 md:text-lg">
+              Seu portal para cruzar animes, games, HQs e ciência de dados. Monte dossiês de lore, organize watch parties ranqueadas,
+              desbloqueie colecionáveis digitais e compartilhe builds com guildas espalhadas pelo multiverso geek.
             </p>
           </div>
 
-          <div className="flex gap-4 md:flex-col md:items-end">
+          <div className="flex flex-wrap gap-3 md:flex-col md:items-end">
             <Link
-              href="/animes"
+              href="/lore"
               className="inline-flex items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_35px_rgba(249,115,22,0.45)] transition hover:-translate-y-0.5 hover:brightness-110"
             >
-              Explorar catálogo
+              Explorar hub geek
             </Link>
             <Link
-              href="/sobre"
+              href="/animes"
               className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/90 backdrop-blur-md transition hover:border-orange-400 hover:text-white"
             >
-              Sobre o projeto
+              Ver catálogo
             </Link>
+            <a
+              href="https://discord.gg/animeverse"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-full border border-yellow-300/70 bg-yellow-200/15 px-6 py-3 text-sm font-semibold uppercase tracking-[0.32em] text-yellow-200 transition hover:border-yellow-200 hover:text-white"
+            >
+              Abrir sala da guilda
+            </a>
           </div>
         </motion.header>
 
@@ -68,19 +87,19 @@ export default function Home() {
             <div className="relative flex h-full flex-col justify-between">
               <div className="flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-orange-200">
                 <span className="h-px w-12 bg-orange-500/70" />
-                <span>painel principal</span>
+                <span>hub principal</span>
               </div>
               <div className="space-y-4">
                 <h2 className="text-4xl font-semibold text-white drop-shadow-[0_12px_40px_rgba(249,115,22,0.3)]">
-                  Navegação fluida para mergulhar no próximo arco
+                  Monte sua missão geek em minutos
                 </h2>
                 <div className="flex flex-wrap gap-3 text-sm">
                   {[
-                    "Populares",
-                    "Em exibição",
-                    "Em breve",
-                    "Streaming",
-                    "Favoritos",
+                    "Lore",
+                    "Teorias",
+                    "Watch party",
+                    "Colecionáveis",
+                    "Tech",
                   ].map((item) => (
                     <span
                       key={item}
@@ -99,15 +118,15 @@ export default function Home() {
                   </span>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-[rgba(34,8,10,0.8)] p-4">
-                  <p className="text-lg font-semibold text-white">12</p>
+                  <p className="text-lg font-semibold text-white">48</p>
                   <span className="text-[10px] uppercase tracking-[0.3em] text-orange-200">
-                    categorias
+                    rotas geek
                   </span>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-[rgba(34,8,10,0.8)] p-4">
-                  <p className="text-lg font-semibold text-white">HD+</p>
+                  <p className="text-lg font-semibold text-white">XP+</p>
                   <span className="text-[10px] uppercase tracking-[0.3em] text-orange-200">
-                    banners
+                    progressão
                   </span>
                 </div>
               </div>
@@ -135,7 +154,7 @@ export default function Home() {
                 </div>
               </div>
               <p className="text-sm uppercase tracking-[0.3em] text-orange-100">
-                pronto para a próxima missão
+                guilda sincronizada
               </p>
             </div>
           </div>
@@ -162,6 +181,219 @@ export default function Home() {
                 </Link>
               ))}
             </div>
+          </div>
+        </motion.section>
+
+        <motion.section
+          id="lore"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(249,115,22,0.25)] backdrop-blur"
+        >
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <h2 className="text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(255,200,0,0.35)]">
+              Lore radar & teorias impulsionadas pela guilda
+            </h2>
+            <span className="text-xs uppercase tracking-[0.35em] text-yellow-200">
+              atualizações diárias
+            </span>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {LORE_SPOTLIGHTS.map((item) => (
+              <div
+                key={item.title}
+                className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-black/40 p-6"
+              >
+                <span className="inline-flex w-max items-center gap-2 rounded-full border border-yellow-300/40 bg-yellow-200/10 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-yellow-200">
+                  {item.badge}
+                </span>
+                <div className="space-y-3">
+                  <h3 className="text-xl font-semibold text-white">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-zinc-200">
+                    {item.summary}
+                  </p>
+                </div>
+                <div className="mt-6 h-[1px] w-full bg-gradient-to-r from-transparent via-yellow-400/40 to-transparent" />
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section
+          id="colecionaveis"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 0.7, delay: 0.25 }}
+          className="space-y-8 rounded-3xl border border-orange-400/30 bg-[rgba(36,9,11,0.78)] p-8 shadow-[0_22px_70px_rgba(249,115,22,0.28)]"
+        >
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <h2 className="text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(249,115,22,0.4)]">
+              Cofre de colecionáveis & drops digitais
+            </h2>
+            <span className="text-xs uppercase tracking-[0.35em] text-orange-200">
+              atualizado por curadores
+            </span>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {COLLECTIBLE_DROPS.map((drop) => (
+              <div
+                key={drop.name}
+                className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-black/35 p-6"
+              >
+                <div className="flex items-center justify-between text-xs uppercase tracking-[0.35em] text-orange-200">
+                  <span>{drop.tag}</span>
+                  <span>loot</span>
+                </div>
+                <div className="space-y-3">
+                  <h3 className="text-xl font-semibold text-white">
+                    {drop.name}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-zinc-200">
+                    {drop.description}
+                  </p>
+                </div>
+                <div className="mt-6 h-[1px] w-full bg-gradient-to-r from-transparent via-orange-400/40 to-transparent" />
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section
+          id="comunidade"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(180,80,255,0.25)]"
+        >
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <h2 className="text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(180,80,255,0.45)]">
+              Comunidade & gamificação
+            </h2>
+            <span className="text-xs uppercase tracking-[0.35em] text-purple-200">
+              xp compartilhado
+            </span>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {COMMUNITY_TRACKS.map((track) => (
+              <div
+                key={track.title}
+                className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-black/40 p-6"
+              >
+                <div className="space-y-2">
+                  <span className="text-xs uppercase tracking-[0.35em] text-purple-200">
+                    {track.xp}
+                  </span>
+                  <h3 className="text-xl font-semibold text-white">
+                    {track.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-zinc-200">
+                    {track.description}
+                  </p>
+                </div>
+                <div className="mt-6">
+                  {track.external ? (
+                    <a
+                      href={track.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-purple-300/40 bg-purple-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.32em] text-purple-100 transition hover:border-purple-200 hover:text-white"
+                    >
+                      {track.label} ↗
+                    </a>
+                  ) : (
+                    <Link
+                      href={track.href}
+                      className="inline-flex items-center gap-2 rounded-full border border-purple-300/40 bg-purple-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.32em] text-purple-100 transition hover:border-purple-200 hover:text-white"
+                    >
+                      {track.label} ↗
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section
+          id="eventos"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 0.7, delay: 0.35 }}
+          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(100,180,255,0.25)]"
+        >
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <h2 className="text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(100,180,255,0.45)]">
+              Agenda de eventos & watch parties
+            </h2>
+            <span className="text-xs uppercase tracking-[0.35em] text-blue-200">
+              sincronize no calendário
+            </span>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {EVENT_SCHEDULE.map((event) => (
+              <div
+                key={event.title}
+                className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-black/40 p-6"
+              >
+                <div className="space-y-2">
+                  <span className="text-xs uppercase tracking-[0.35em] text-blue-200">
+                    {event.datetime}
+                  </span>
+                  <h3 className="text-lg font-semibold text-white">
+                    {event.title}
+                  </h3>
+                  <p className="text-sm text-zinc-300">{event.location}</p>
+                  <p className="text-sm leading-relaxed text-zinc-200">
+                    {event.focus}
+                  </p>
+                </div>
+                <div className="mt-6 flex items-center justify-between text-[11px] uppercase tracking-[0.35em] text-blue-200">
+                  <span>sincronia ao vivo</span>
+                  <span>slots limitados</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section
+          id="tech"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(255,200,0,0.2)]"
+        >
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <h2 className="text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(255,200,0,0.35)]">
+              Tech & gadgets para elevar sua experiência geek
+            </h2>
+            <span className="text-xs uppercase tracking-[0.35em] text-yellow-200">
+              download imediato
+            </span>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {TECH_STACKS.map((stack) => (
+              <div
+                key={stack.title}
+                className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-black/40 p-6"
+              >
+                <h3 className="text-xl font-semibold text-white">
+                  {stack.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-200">
+                  {stack.description}
+                </p>
+                <div className="mt-6 h-[1px] w-full bg-gradient-to-r from-transparent via-yellow-400/40 to-transparent" />
+              </div>
+            ))}
           </div>
         </motion.section>
       </div>
