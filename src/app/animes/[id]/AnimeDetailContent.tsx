@@ -1,72 +1,79 @@
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import { ANIME_CUSTOM_DATA } from "@/app/data/animeCustomData";
-import { PosterFallback } from "@/app/components/PosterFallback";
-import { CharactersList } from "../components/CharactersList";
-import { WatchLinks } from "../components/WatchLinks";
-import { MangaList } from "../components/MangaList";
-import { MusicPlayer } from "../components/MusicPlayer";
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
+import { ANIME_CUSTOM_DATA } from '@/app/data/animeCustomData'
+import { PosterFallback } from '@/app/components/PosterFallback'
+import { CharactersList } from '../components/CharactersList'
+import { WatchLinks } from '../components/WatchLinks'
+import { MangaList } from '../components/MangaList'
+import { MusicPlayer } from '../components/MusicPlayer'
 import {
   AnimeCharacter,
   AnimeDetail,
   StreamingLink,
   MangaSuggestion,
   AnimeSong,
-} from "@/types/anime";
+} from '@/types/anime'
 
 type Props = {
-  anime: AnimeDetail;
-  characters: AnimeCharacter[];
-  streaming: StreamingLink[];
-  mangas: MangaSuggestion[];
-  songs: AnimeSong[];
-};
+  anime: AnimeDetail
+  characters: AnimeCharacter[]
+  streaming: StreamingLink[]
+  mangas: MangaSuggestion[]
+  songs: AnimeSong[]
+}
 
-export function AnimeDetailContent({ anime, characters, streaming, mangas, songs }: Props) {
-  const customization = ANIME_CUSTOM_DATA.find((entry) => entry.title === anime.title);
+export function AnimeDetailContent({
+  anime,
+  characters,
+  streaming,
+  mangas,
+  songs,
+}: Props) {
+  const customization = ANIME_CUSTOM_DATA.find(
+    (entry) => entry.title === anime.title,
+  )
 
-  const synopsis = customization?.synopsis || anime.synopsis;
+  const synopsis = customization?.synopsis || anime.synopsis
 
   const loreTimeline =
     customization?.loreTimeline && customization.loreTimeline.length > 0
       ? customization.loreTimeline
       : [
           {
-            era: "Estreia",
-            highlight:
-              anime.year
-                ? `${anime.title} chegou em ${anime.year} com ${anime.episodes ?? "episódios em múltiplas fases"}. Recupere esse arco na nossa wiki colaborativa.`
-                : `${anime.title} estreou sem ano confirmado no Jikan, mas nossa comunidade mantém um guia atualizado com cada arco canon e filler.`,
+            era: 'Estreia',
+            highlight: anime.year
+              ? `${anime.title} chegou em ${anime.year} com ${anime.episodes ?? 'episódios em múltiplas fases'}. Recupere esse arco na nossa wiki colaborativa.`
+              : `${anime.title} estreou sem ano confirmado no Jikan, mas nossa comunidade mantém um guia atualizado com cada arco canon e filler.`,
           },
           {
-            era: "Status",
+            era: 'Status',
             highlight: anime.status
               ? `Status oficial: ${anime.status}. Atualizamos teorias de continuidade toda semana na guilda Lore Nexus.`
-              : "Status não informado pela API. Consulte o canal #lore-tracker para atualizações crowdsourced.",
+              : 'Status não informado pela API. Consulte o canal #lore-tracker para atualizações crowdsourced.',
           },
           ...(streaming.length > 0
             ? [
                 {
-                  era: "Watch parties",
+                  era: 'Watch parties',
                   highlight: `Organize sessões simultâneas usando ${streaming
                     .slice(0, 2)
                     .map((item) => item.name)
-                    .join(" e ")} diretamente pelo hub do AnimeVerse.`,
+                    .join(' e ')} diretamente pelo hub do AnimeVerse.`,
                 },
               ]
             : []),
-        ];
+        ]
 
   const crossMedia = dedupeByTitle([
     ...(customization?.crossMedia ?? []),
     ...mangas.slice(0, 3).map((manga) => ({
       title: `Mangá: ${manga.title}`,
-      type: "Mangá",
+      type: 'Mangá',
       url: manga.url,
     })),
     ...streaming.slice(0, 2).map((service) => ({
       title: service.name,
-      type: "Streaming",
+      type: 'Streaming',
       url: service.url,
     })),
     ...songs.slice(0, 2).map((song) => ({
@@ -74,7 +81,7 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
       type: song.type,
       url: song.url ?? undefined,
     })),
-  ]).slice(0, 6);
+  ]).slice(0, 6)
 
   const collectibles =
     customization?.collectibles && customization.collectibles.length > 0
@@ -83,31 +90,30 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
           {
             name: `Blueprint ${anime.title}`,
             description:
-              "Kit colaborativo para imprimir em 3D ou laser-cut os itens icônicos desta franquia. Disponível no canal #workshop-dojo.",
+              'Kit colaborativo para imprimir em 3D ou laser-cut os itens icônicos desta franquia. Disponível no canal.',
           },
           {
-            name: "Badge AnimeVerse Prime",
+            name: 'Badge AnimeVerse Prime',
             description:
-              "Conquiste o emblema digital participando de uma missão semanal da sua guilda e sincronize com seu perfil no site.",
-            link: "https://discord.gg/animeverse",
+              'Conquiste o emblema digital participando de uma missão semanal da sua guilda e sincronize com seu perfil no site.',
+            link: 'https://discord.gg/animeverse',
           },
-        ];
+        ]
 
   const techHighlights =
     customization?.techHighlights && customization.techHighlights.length > 0
       ? customization.techHighlights
       : [
           {
-            name: "Overlay animado para streams",
-            description:
-              `Pack gratuito com molduras inspiradas em ${anime.title} para OBS/Streamlabs incluindo alertas e transições sonorizadas.`,
+            name: 'Overlay animado para streams',
+            description: `Pack gratuito com molduras inspiradas em ${anime.title} para OBS/Streamlabs incluindo alertas e transições sonorizadas.`,
           },
           {
-            name: "Macroboard temático",
+            name: 'Macroboard temático',
             description:
-              "Layout para Stream Deck / Touch Portal com atalhos de soundboard, cronogramas e links de wiki para narrar sessões geeks.",
+              'Layout para Stream Deck / Touch Portal com atalhos de soundboard, cronogramas e links de wiki para narrar sessões geeks.',
           },
-        ];
+        ]
 
   const trivia =
     customization?.trivia && customization.trivia.length > 0
@@ -115,30 +121,29 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
       : [
           anime.score
             ? `No AnimeVerse, ${anime.title} mantém média ${anime.score.toFixed(
-                1
+                1,
               )} ⭐ com ênfase em cinematografia.`
             : `${anime.title} ainda não tem nota consolidada — registre a sua impressão para ajudar a ranquear nos dashboards da comunidade.`,
           anime.duration
             ? `Cada episódio tem duração média de ${anime.duration}. Use nosso planner automático para maratonar a temporada em watch parties.`
-            : "Combine watch parties com nosso planner automático e defina checkpoints para debates sem spoilers.",
-        ];
+            : 'Combine watch parties com nosso planner automático e defina checkpoints para debates sem spoilers.',
+        ]
 
   const communityHooks =
     customization?.communityHooks && customization.communityHooks.length > 0
       ? customization.communityHooks
       : [
           {
-            title: "Sala de Guilda",
-            description:
-              `Entre na sala dedicada a ${anime.title} no Discord, desbloqueie cargos exclusivos e compartilhe threads de teoria.`,
-            link: "https://discord.gg/animeverse",
+            title: 'Sala de Guilda',
+            description: `Entre na sala dedicada a ${anime.title} no Discord, desbloqueie cargos exclusivos e compartilhe threads de teoria.`,
+            link: 'https://discord.gg/animeverse',
           },
           {
-            title: "Watch parties ranqueadas",
+            title: 'Watch parties ranqueadas',
             description:
-              "Participe de maratonas com scoreboard gamificado e conquiste adesivos digitais para o seu perfil.",
+              'Participe de maratonas com scoreboard gamificado e conquiste adesivos digitais para o seu perfil.',
           },
-        ];
+        ]
 
   return (
     <main className="relative min-h-screen select-none overflow-y-auto text-white">
@@ -150,9 +155,7 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl space-y-20 px-6 py-14">
-        <div
-         
-        >
+        <div>
           <Link
             href="/animes"
             className="flex items-center gap-2 text-yellow-400 transition-colors hover:text-yellow-300"
@@ -163,10 +166,7 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
         </div>
 
         <div className="flex flex-col gap-10 lg:flex-row">
-          <div
-           
-            className="flex-1 space-y-6"
-          >
+          <div className="flex-1 space-y-6">
             <h1 className="mb-4 text-5xl font-extrabold text-yellow-300 drop-shadow-[0_0_25px_rgba(255,200,0,0.5)] md:text-6xl">
               {anime.title}
             </h1>
@@ -181,37 +181,33 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <InfoRow label="Gêneros" value={
-                anime.genres.length > 0 ? anime.genres.join(", ") : "Indefinido"
-              } />
-              <InfoRow label="Ano" value={anime.year ?? "Desconhecido"} />
+              <InfoRow
+                label="Gêneros"
+                value={
+                  anime.genres.length > 0
+                    ? anime.genres.join(', ')
+                    : 'Indefinido'
+                }
+              />
+              <InfoRow label="Ano" value={anime.year ?? 'Desconhecido'} />
               <InfoRow
                 label="Temporada"
-                value={anime.season ?? "Não informado"}
+                value={anime.season ?? 'Não informado'}
               />
-              <InfoRow
-                label="Status"
-                value={anime.status ?? "Indefinido"}
-              />
+              <InfoRow label="Status" value={anime.status ?? 'Indefinido'} />
               <InfoRow
                 label="Nota"
-                value={anime.score ? anime.score.toFixed(1) : "N/D"}
+                value={anime.score ? anime.score.toFixed(1) : 'N/D'}
               />
               <InfoRow
                 label="Episódios"
-                value={anime.episodes ?? "Desconhecido"}
+                value={anime.episodes ?? 'Desconhecido'}
               />
-              <InfoRow
-                label="Duração"
-                value={anime.duration ?? "Indefinido"}
-              />
+              <InfoRow label="Duração" value={anime.duration ?? 'Indefinido'} />
             </div>
           </div>
 
-          <div
-           
-            className="flex-1"
-          >
+          <div className="flex-1">
             <div className="overflow-hidden rounded-3xl border border-white/15 bg-black/40 p-6 backdrop-blur">
               <div className="relative overflow-hidden rounded-2xl border border-white/10">
                 <PosterFallback title={anime.title} />
@@ -222,42 +218,26 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
 
         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-yellow-500/40 to-transparent" />
 
-        <div
-         
-          id="personagens"
-        >
+        <div id="personagens">
           <CharactersList characters={characters} />
         </div>
 
-        <div
-          id="watch"
-         
-        >
+        <div id="watch">
           <WatchLinks links={streaming} />
         </div>
 
-        <section
-         
-          className="space-y-6"
-        >
+        <section className="space-y-6">
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
             Mangás para baixar
           </h2>
           <MangaList items={mangas} />
         </section>
 
-        <section
-         
-          className="space-y-6"
-        >
+        <section className="space-y-6">
           <MusicPlayer songs={songs} />
         </section>
 
-        <section
-          id="lore"
-         
-          className="space-y-6"
-        >
+        <section id="lore" className="space-y-6">
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
             Linha do tempo & Lore da Guilda
           </h2>
@@ -265,7 +245,6 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
             {loreTimeline.map((node, index) => (
               <article
                 key={`${node.era}-${index}`}
-               
                 className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-5 backdrop-blur"
               >
                 <span className="text-xs uppercase tracking-[0.35em] text-yellow-200">
@@ -280,11 +259,7 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
           </div>
         </section>
 
-        <section
-          id="colecionaveis"
-         
-          className="space-y-6"
-        >
+        <section id="colecionaveis" className="space-y-6">
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
             Vault de colecionáveis
           </h2>
@@ -315,11 +290,7 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
           </div>
         </section>
 
-        <section
-          id="cross-media"
-         
-          className="space-y-6"
-        >
+        <section id="cross-media" className="space-y-6">
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
             Multiverso conectado
           </h2>
@@ -327,15 +298,14 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
             {crossMedia.map((entry, index) => (
               <a
                 key={`${entry.title}-${index}`}
-               
-                href={entry.url ?? "#"}
-                target={entry.url ? "_blank" : undefined}
-                rel={entry.url ? "noopener noreferrer" : undefined}
+                href={entry.url ?? '#'}
+                target={entry.url ? '_blank' : undefined}
+                rel={entry.url ? 'noopener noreferrer' : undefined}
                 className="flex flex-col justify-between rounded-2xl border border-white/10 bg-black/35 p-5 text-left transition hover:border-yellow-400/50 hover:shadow-[0_0_18px_rgba(255,200,0,0.28)]"
               >
                 <div>
                   <span className="text-xs uppercase tracking-[0.35em] text-yellow-200">
-                    {entry.type ?? "Experiência"}
+                    {entry.type ?? 'Experiência'}
                   </span>
                   <p className="mt-3 text-sm font-medium text-white">
                     {entry.title}
@@ -355,11 +325,7 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
           </div>
         </section>
 
-        <section
-          id="tech"
-         
-          className="space-y-6"
-        >
+        <section id="tech" className="space-y-6">
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
             Tech & gadgets para geeks
           </h2>
@@ -378,11 +344,7 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
           </div>
         </section>
 
-        <section
-          id="trivia"
-         
-          className="space-y-6"
-        >
+        <section id="trivia" className="space-y-6">
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
             Trivia & easter eggs
           </h2>
@@ -399,11 +361,7 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
           </ul>
         </section>
 
-        <section
-          id="comunidade"
-         
-          className="space-y-6"
-        >
+        <section id="comunidade" className="space-y-6">
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
             Playbook da comunidade
           </h2>
@@ -417,7 +375,9 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
                   <h3 className="text-lg font-semibold text-white drop-shadow-[0_0_12px_rgba(255,200,0,0.35)]">
                     {hook.title}
                   </h3>
-                  <p className="mt-2 text-sm text-zinc-200">{hook.description}</p>
+                  <p className="mt-2 text-sm text-zinc-200">
+                    {hook.description}
+                  </p>
                 </div>
                 {hook.link ? (
                   <a
@@ -435,33 +395,33 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
         </section>
       </div>
     </main>
-  );
+  )
 }
 
 type InfoRowProps = {
-  label: string;
-  value: string | number | null;
-};
+  label: string
+  value: string | number | null
+}
 
 function InfoRow({ label, value }: InfoRowProps) {
-  const display = value === null || value === undefined ? "—" : String(value);
+  const display = value === null || value === undefined ? '—' : String(value)
   return (
     <p className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-zinc-200">
       <strong className="text-yellow-400">{label}:</strong> {display}
     </p>
-  );
+  )
 }
 
 type TitleLike = {
-  title: string;
-};
+  title: string
+}
 
 function dedupeByTitle<T extends TitleLike>(list: T[]): T[] {
-  const seen = new Set<string>();
+  const seen = new Set<string>()
   return list.filter((item) => {
-    const key = item.title.toLowerCase();
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+    const key = item.title.toLowerCase()
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
 }
