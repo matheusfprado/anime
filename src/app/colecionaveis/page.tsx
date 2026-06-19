@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { COLLECTIBLE_DROPS } from "@/app/data/hubContent";
 import { ANIME_CUSTOM_DATA } from "@/app/data/animeCustomData";
@@ -26,10 +25,8 @@ export default function ColecionaveisPage() {
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_top,_rgba(255,120,0,0.25),transparent_55%)]" />
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_bottom,_rgba(255,0,90,0.2),transparent_60%)]" />
 
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+      <section
+       
         className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-24 pt-28"
       >
         <header className="space-y-6">
@@ -87,11 +84,9 @@ export default function ColecionaveisPage() {
           {activeTab === "hub" ? (
             <div className="grid gap-6 md:grid-cols-3">
               {COLLECTIBLE_DROPS.map((drop) => (
-                <motion.article
+                <article
                   key={drop.name}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 }}
+                 
                   className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-black/30 p-6"
                 >
                   <div>
@@ -107,7 +102,7 @@ export default function ColecionaveisPage() {
                   <span className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.35em] text-orange-100">
                     liberar via guilda ↗
                   </span>
-                </motion.article>
+                </article>
               ))}
             </div>
           ) : (
@@ -119,11 +114,9 @@ export default function ColecionaveisPage() {
                 </p>
               ) : (
                 animeCollectibles.map((item, index) => (
-                  <motion.article
+                  <article
                     key={`${item.name}-${index}`}
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.02 }}
+                   
                     className="flex h-full flex-col justify-between gap-4 rounded-3xl border border-white/10 bg-black/30 p-6"
                   >
                     <div className="space-y-3">
@@ -149,7 +142,7 @@ export default function ColecionaveisPage() {
                         blueprint comunitária
                       </span>
                     )}
-                  </motion.article>
+                  </article>
                 ))
               )}
             </div>
@@ -176,7 +169,7 @@ export default function ColecionaveisPage() {
             </Link>
           </div>
         </section>
-      </motion.section>
+      </section>
     </main>
   );
 }

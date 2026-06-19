@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   LORE_SPOTLIGHTS,
   COLLECTIBLE_DROPS,
@@ -20,19 +17,13 @@ export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden text-white">
       <div className="absolute inset-0 -z-30 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/backgrounds/anime-scene.gif')] bg-cover bg-center opacity-85" />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#ff8c42]/70 via-[#ff4f5a]/60 to-[#4b1d6b]/75 mix-blend-soft-light" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.38),_transparent_58%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(255,141,45,0.55),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(255,255,255,0.12)_1px,_transparent_1px)] bg-[length:160px_160px] opacity-25" />
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'140\' height=\'140\' viewBox=\'0 0 140 140\'%3E%3Cpath d=\'M0 70h140M70 0v140\' stroke=\'rgba(255,190,120,0.08)\' stroke-width=\'2\' stroke-dasharray=\'10 18\'/%3E%3C/svg%3E')] opacity-25" />
-        <div className="absolute inset-0 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-[#09090b]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.22),_transparent_38%),radial-gradient(circle_at_bottom_right,_rgba(79,70,229,0.18),_transparent_42%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(255,255,255,0.06)_1px,_transparent_1px)] bg-[length:180px_180px] opacity-30" />
       </div>
       <div className="relative z-20 mx-auto flex w-full max-w-6xl flex-col gap-16 px-6 pb-24 pt-28 md:pt-36">
-        <motion.header
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+        <header
+         
           className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
         >
           <div>
@@ -73,12 +64,10 @@ export default function Home() {
               Abrir sala da guilda
             </a>
           </div>
-        </motion.header>
+        </header>
 
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
+        <section
+         
           className="grid gap-6 md:grid-cols-[1.3fr_0.7fr]"
         >
           <div className="relative overflow-hidden rounded-3xl border border-orange-300/40 bg-[rgba(39,10,12,0.75)] p-10 shadow-[0_25px_75px_rgba(249,115,22,0.35)]">
@@ -158,12 +147,10 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+        <section
+         
           className="rounded-3xl border border-orange-300/35 bg-[rgba(36,9,11,0.78)] p-8 shadow-[0_22px_70px_rgba(249,115,22,0.3)]"
         >
           <div className="flex flex-col gap-6 text-center md:flex-row md:items-center md:justify-between md:text-left">
@@ -182,14 +169,11 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="lore"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+         
           className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(249,115,22,0.25)] backdrop-blur"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -221,14 +205,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="colecionaveis"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.7, delay: 0.25 }}
+         
           className="space-y-8 rounded-3xl border border-orange-400/30 bg-[rgba(36,9,11,0.78)] p-8 shadow-[0_22px_70px_rgba(249,115,22,0.28)]"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -261,14 +242,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="comunidade"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.7, delay: 0.3 }}
+         
           className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(180,80,255,0.25)]"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -318,14 +296,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="eventos"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.7, delay: 0.35 }}
+         
           className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(100,180,255,0.25)]"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -361,14 +336,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="tech"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-120px" }}
-          transition={{ duration: 0.7, delay: 0.4 }}
+         
           className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(255,200,0,0.2)]"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -395,7 +367,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </motion.section>
+        </section>
       </div>
 
       <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#2a080a] via-transparent to-transparent" />

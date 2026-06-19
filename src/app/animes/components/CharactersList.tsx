@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { AnimeCharacter } from "@/types/anime";
 import { CharacterModal } from "./CharacterModal";
@@ -50,11 +51,14 @@ export function CharactersList({ characters }: Props) {
               className="group relative cursor-pointer rounded-2xl border border-white/10 bg-gradient-to-b from-zinc-900/60 to-black p-4 transition-all duration-300 hover:border-yellow-400/60 hover:shadow-[0_0_15px_rgba(255,200,0,0.4)]"
             >
               <div className="overflow-hidden rounded-xl">
-                <img
+                <Image
                   src={character.image}
                   alt={character.name}
+                  width={180}
+                  height={180}
                   className="h-36 w-full rounded-xl object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
+                  sizes="180px"
                 />
               </div>
               <p className="mt-3 text-center text-sm font-medium text-zinc-100 transition-colors group-hover:text-yellow-300">

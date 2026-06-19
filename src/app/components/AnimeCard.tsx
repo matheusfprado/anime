@@ -1,22 +1,27 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { AnimeSummary } from "@/types/anime";
 import { Stars } from "./Stars";
+import { PosterFallback } from "./PosterFallback";
 
 type Props = {
   anime: AnimeSummary;
 };
 
 export function AnimeCard({ anime }: Props) {
+  const detailParams = new URLSearchParams({
+    title: anime.title,
+    synopsis: anime.synopsis.slice(0, 320),
+    poster: anime.poster,
+    banner: anime.banner,
+    genres: anime.genres.join(","),
+    status: anime.status ?? "",
+    year: anime.year ? String(anime.year) : "",
+    score: anime.score ? String(anime.score) : "",
+  });
 
   return (
-    <motion.div
+    <div
       key={anime.id}
-      initial={{ opacity: 0, y: 22 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
       className="grid h-[380px] gap-4 rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur-md md:grid-cols-[1fr_0.8fr]"
     >
       <div className="flex flex-col justify-center">
@@ -52,7 +57,7 @@ export function AnimeCard({ anime }: Props) {
 
         <div className="mt-5">
           <Link
-            href={`/animes/${anime.id}`}
+            href={`/animes/${anime.id}?${detailParams.toString()}`}
             className="inline-flex h-10 items-center rounded-xl bg-gradient-to-b from-yellow-300 to-orange-500 px-5 text-sm font-semibold text-black shadow-[0_12px_30px_rgba(255,160,0,0.35)] transition-transform hover:scale-105 hover:brightness-110"
           >
             Ver
@@ -64,13 +69,8 @@ export function AnimeCard({ anime }: Props) {
         key={anime.poster}
         className="relative flex items-center justify-center overflow-hidden rounded-2xl"
       >
-        <img
-          src={anime.poster}
-          alt={anime.title}
-          className="h-[300px] w-auto object-contain"
-          loading="lazy"
-        />
+        <PosterFallback title={anime.title} />
       </div>
-    </motion.div>
+    </div>
   );
 }

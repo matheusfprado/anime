@@ -3,6 +3,7 @@ import * as cheerio from "cheerio";
 import { AnimeSong } from "@/types/anime";
 
 const MAL_BASE = "https://myanimelist.net";
+const REVALIDATE_SECONDS = 60 * 60 * 6;
 
 function normalizeTitle(title: string): string {
   return title
@@ -17,7 +18,7 @@ async function fetchPage(url: string): Promise<string> {
       "User-Agent":
         "Mozilla/5.0 (compatible; AnimeDashboardBot/1.0; +https://localhost)",
     },
-    cache: "no-store",
+    next: { revalidate: REVALIDATE_SECONDS },
   });
 
   if (!response.ok) {

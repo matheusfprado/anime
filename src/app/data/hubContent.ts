@@ -1,179 +1,179 @@
 export const LORE_SPOTLIGHTS = [
   {
-    badge: "novo",
-    title: "Lore Nexus colaborativo",
+    badge: "guia",
+    title: "Linhas do tempo organizadas",
     summary:
-      "Timelines interativas unem anime, games e HQs. Vote em teorias e desbloqueie finais alternativos criados pela comunidade.",
+      "Arcos, filmes e materiais extras separados por ordem de lançamento e ordem cronológica.",
   },
   {
-    badge: "ranked",
-    title: "Termômetro de teorias",
+    badge: "curadoria",
+    title: "Teorias com contexto",
     summary:
-      "Algoritmo que pontua previsões com base em dados das últimas temporadas e mangas divulgados oficialmente.",
+      "Hipóteses de fãs acompanhadas por referências, episódios e capítulos citados.",
   },
   {
-    badge: "tools",
-    title: "Blueprints de campanha",
+    badge: "listas",
+    title: "Guias para maratonar",
     summary:
-      "Use nossos kits para adaptar qualquer arco em sessões de RPG, board games narrativos ou LARP híbrido.",
+      "Seleções rápidas para rever sagas, pular fillers e encontrar continuações em mangás ou especiais.",
   },
 ];
 
 export const COLLECTIBLE_DROPS = [
   {
-    tag: "AR",
-    name: "Drops holográficos",
+    tag: "figures",
+    name: "Action figures e estátuas",
     description:
-      "Modelos em realidade aumentada dos itens lendários, prontos para incorporar no setup ou nos seus reels geek.",
+      "Peças populares, linhas de colecionador e sugestões para começar sem cair em réplica ruim.",
   },
   {
     tag: "DIY",
-    name: "Laboratório de props",
+    name: "Props e cosplay",
     description:
-      "Arquivos STL + listas de materiais em camadas para montar armas, mascotes e insígnias com acabamento profissional.",
+      "Referências visuais, materiais comuns e ideias de acabamento para acessórios de personagens.",
   },
   {
-    tag: "DIGITAL",
-    name: "Badges Sazonais",
+    tag: "print",
+    name: "Artbooks e edições especiais",
     description:
-      "Colecionáveis digitais com progressão XP vinculada às missões das guildas e aos relatórios de watch party.",
+      "Volumes, capas alternativas e guias oficiais que valem acompanhar em lançamentos.",
   },
 ];
 
 export const COMMUNITY_TRACKS = [
   {
-    title: "Guilda Prime",
-    xp: "+250 XP / semana",
+    title: "Discussões semanais",
+    xp: "sexta à noite",
     description:
-      "Squad multidisciplinar que conecta lore masters, analistas de dados e cosplayers para criar dossiês oficiais.",
+      "Conversas sobre episódios recentes, teorias e recomendações sem depender de feed bagunçado.",
     href: "https://discord.gg/animeverse",
     external: true,
     label: "entrar",
   },
   {
-    title: "Ranked Teorias",
-    xp: "+120 XP / sprint",
+    title: "Clube de teorias",
+    xp: "spoilers marcados",
     description:
-      "Submeta previsões, acompanhe dashboards com precisão e suba de patente até virar Oráculo do Multiverso.",
+      "Debates separados por obra, arco e nível de spoiler para não estragar a experiência de ninguém.",
     href: "/lore",
     external: false,
-    label: "ver ranking",
+    label: "ver teorias",
   },
   {
-    title: "Cosplay Labs",
-    xp: "+200 XP / workshop",
+    title: "Cosplay e coleções",
+    xp: "guias práticos",
     description:
-      "Mentorias híbridas com moldes, texturas e pipelines de pintura para levar props e figurinos ao próximo nível.",
+      "Espaço para comparar peças, pedir referência e mostrar progresso em props ou figures.",
     href: "/colecionaveis",
     external: false,
-    label: "reservar vaga",
+    label: "ver guias",
   },
 ];
 
 export const EVENT_SCHEDULE = [
   {
-    title: "Watch Party Shonen Jump Night",
+    title: "Watch Party Shonen Jump",
     datetime: "Sex • 22h BRT",
-    location: "Discord — Sala 07",
-    focus: "Naruto vs. Pain + bingo de teorias.",
+    location: "Discord",
+    focus: "Naruto vs. Pain com pausa para comentários depois do episódio.",
   },
   {
-    title: "Lore Jam Multiverso",
+    title: "Debate One Piece",
     datetime: "Sáb • 16h BRT",
-    location: "Gather Town",
-    focus: "Mapa colaborativo de Egghead e conexões com One Piece Film: Red.",
+    location: "Discord",
+    focus: "Teorias de Egghead e conexões com materiais oficiais recentes.",
   },
   {
-    title: "Mesa Cyberpunk Edge Ops",
+    title: "Noite Cyberpunk",
     datetime: "Dom • 18h BRT",
     location: "Roll20 + Discord",
-    focus: "Campanha one-shot ambientada após Edgerunners com integração de OSTs ao vivo.",
+    focus: "One-shot inspirado em Edgerunners com playlist e referências visuais.",
   },
 ];
 
 export const TECH_STACKS = [
   {
-    title: "Overlay Reactor",
+    title: "Setup para watch party",
     description:
-      "Pack OBS modular com alerts inspirados em respirações, haki e energia espiritual. Compatível com Stream Deck.",
+      "Checklist simples para áudio, tela compartilhada, legendas e chat sem travar a sessão.",
   },
   {
-    title: "Bot Guildmaster",
+    title: "Bot de agenda",
     description:
-      "Automação no Discord que agenda watch parties, entrega drops digitais e sincroniza XP no perfil.",
+      "Automação para avisos no Discord, lembretes de episódios e organização por canal.",
   },
   {
-    title: "Dataset Multiverso",
+    title: "Base de referências",
     description:
-      "CSV versionado com linhas do tempo, crossovers oficiais e eventos canônicos para projetar teorias ou treinar IA.",
+      "Planilha versionada com arcos, episódios, filmes, mangás e links úteis para pesquisa.",
   },
 ];
 
 export const HALL_OF_FAME = [
   {
     codename: "Oracle-762",
-    guild: "Lore Nexus",
-    speciality: "Teorias cross-universo",
+    guild: "Lore",
+    speciality: "Teorias com referência",
     score: 9870,
   },
   {
     codename: "Synth-Maker",
-    guild: "Cosplay Labs",
-    speciality: "Props AR + iluminação",
+    guild: "Cosplay",
+    speciality: "Props e pintura",
     score: 9420,
   },
   {
     codename: "DataKami",
-    guild: "Guilda Prime",
-    speciality: "Dashboards preditivos",
+    guild: "Curadoria",
+    speciality: "Listas e guias",
     score: 9265,
   },
 ];
 
 export const GUILD_ROOMS = [
   {
-    name: "Lore Nexus",
-    focus: "Mapas mentais, teorias, wikis colaborativas",
-    vibe: "Câmaras holográficas com runas neon.",
-    channel: "#lore-nexus",
+    name: "Lore",
+    focus: "Teorias, cronologias e dúvidas por arco",
+    vibe: "Discussão com spoilers bem sinalizados.",
+    channel: "#lore",
   },
   {
-    name: "Cosplay Labs",
-    focus: "Props, moldes, pintura e têxteis otimizados",
-    vibe: "Oficinas com scanners 3D e projeções anime.",
-    channel: "#cosplay-labs",
+    name: "Cosplay",
+    focus: "Props, moldes, pintura e tecidos",
+    vibe: "Troca de referência e progresso real.",
+    channel: "#cosplay",
   },
   {
-    name: "Tech Forge",
-    focus: "Bots, automações e integração de APIs geek",
-    vibe: "Servidores com leds e painéis flutuantes.",
-    channel: "#tech-forge",
+    name: "Tech",
+    focus: "Bots, listas e automações leves",
+    vibe: "Ferramentas úteis para organizar a comunidade.",
+    channel: "#tech",
   },
   {
-    name: "Arcade Arena",
-    focus: "Watch parties, torneios e minigames",
-    vibe: "Painéis gigantes e piso reativo.",
-    channel: "#arcade-arena",
+    name: "Watch parties",
+    focus: "Agenda, links e comentários pós-episódio",
+    vibe: "Sessões organizadas sem poluir o chat principal.",
+    channel: "#watch",
   },
 ];
 
 export const GUILD_MISSIONS = [
   {
-    title: "Decode do Episódio",
+    title: "Resumo do episódio",
     description:
-      "Analise frames-chave e suba seu relatório com metadados para treinar a IA de legendas.",
-    reward: "+180 XP + Drop de sticker holográfico",
+      "Publique um resumo curto com referência de episódio e marque spoilers corretamente.",
+    reward: "Destaque semanal",
   },
   {
-    title: "Blueprint compartilhado",
+    title: "Referência de cosplay",
     description:
-      "Suba um kit STL/OBJ otimizado e receba feedback da banca Cosplay Labs ao vivo.",
-    reward: "+220 XP + Emblema Forge Tier",
+      "Compartilhe imagem, material usado e custo aproximado para ajudar outras pessoas.",
+    reward: "Guia fixado",
   },
   {
-    title: "Evento relâmpago",
+    title: "Evento rápido",
     description:
-      "Monte uma watch party surpresa em menos de 48h integrando bot, overlay e bingo temático.",
-    reward: "+260 XP + acesso antecipado a drops digitais",
+      "Organize uma sessão com horário, obra, plataforma e regras de spoiler bem claras.",
+    reward: "Agenda da semana",
   },
 ];

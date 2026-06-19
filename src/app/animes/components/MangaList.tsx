@@ -1,6 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
+import Image from "next/image";
 import { MangaSuggestion } from "@/types/anime";
 
 type MangaListProps = {
@@ -20,20 +18,20 @@ export function MangaList({ items }: MangaListProps) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((manga) => (
-        <motion.article
+        <article
           key={manga.id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+         
           className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/40"
         >
           {manga.cover ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={manga.cover}
               alt={manga.title}
+              width={256}
+              height={360}
               className="h-48 w-full object-cover"
               loading="lazy"
+              sizes="(max-width: 1024px) 50vw, 33vw"
             />
           ) : (
             <div className="flex h-48 items-center justify-center bg-gradient-to-br from-orange-500/20 to-amber-500/20 text-xs uppercase tracking-[0.3em] text-amber-100">
@@ -61,7 +59,7 @@ export function MangaList({ items }: MangaListProps) {
               </a>
             </div>
           </div>
-        </motion.article>
+        </article>
       ))}
     </div>
   );

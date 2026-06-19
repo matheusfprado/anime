@@ -1,31 +1,23 @@
-"use client";
-
-import { useMemo } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { TECH_STACKS } from "@/app/data/hubContent";
 import { ANIME_CUSTOM_DATA } from "@/app/data/animeCustomData";
 
-export default function TechPage() {
-  const techHighlights = useMemo(() => {
-    return ANIME_CUSTOM_DATA.flatMap((anime) =>
-      (anime.techHighlights ?? []).map((highlight) => ({
-        ...highlight,
-        origin: anime.title,
-      }))
-    );
-  }, []);
+const techHighlights = ANIME_CUSTOM_DATA.flatMap((anime) =>
+  (anime.techHighlights ?? []).map((highlight) => ({
+    ...highlight,
+    origin: anime.title,
+  }))
+);
 
+export default function TechPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-black text-white">
       <div className="absolute inset-0 -z-40 bg-gradient-to-br from-[#0b1217] via-[#051d29] to-[#02070d]" />
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_top,_rgba(0,200,255,0.25),transparent_55%)]" />
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_bottom,_rgba(0,255,180,0.22),transparent_60%)]" />
 
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+      <section
+       
         className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-24 pt-28"
       >
         <header className="space-y-6">
@@ -102,11 +94,9 @@ export default function TechPage() {
               </p>
             ) : (
               techHighlights.map((item, index) => (
-                <motion.article
+                <article
                   key={`${item.name}-${index}`}
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.03 }}
+                 
                   className="rounded-2xl border border-white/10 bg-white/5 p-5"
                 >
                   <span className="inline-flex items-center gap-2 rounded-full border border-cyan-300/40 bg-cyan-500/10 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-cyan-100">
@@ -116,7 +106,7 @@ export default function TechPage() {
                     {item.name}
                   </h3>
                   <p className="mt-2 text-sm text-zinc-200">{item.description}</p>
-                </motion.article>
+                </article>
               ))
             )}
           </div>
@@ -157,7 +147,7 @@ export default function TechPage() {
             ))}
           </div>
         </section>
-      </motion.section>
+      </section>
     </main>
   );
 }

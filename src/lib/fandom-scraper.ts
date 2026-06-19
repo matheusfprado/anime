@@ -1,10 +1,5 @@
 import { AnimeCategory, AnimeSummary } from "@/types/anime";
 
-type FandomMostViewedEntry = {
-  pageid: number;
-  title: string;
-};
-
 type FandomCategorySpec = {
   title: string;
   name: string;
@@ -13,6 +8,7 @@ type FandomCategorySpec = {
 const API_BASE = "https://liberproeliis.fandom.com/api.php";
 const MOST_VIEWED_LIMIT = 25;
 const CATEGORY_LIMIT = 25;
+const REVALIDATE_SECONDS = 60 * 60;
 
 const CATEGORY_SPECS: FandomCategorySpec[] = [
   {
@@ -27,7 +23,7 @@ const CATEGORY_SPECS: FandomCategorySpec[] = [
 
 async function fetchJson<T>(params: URLSearchParams): Promise<T> {
   const response = await fetch(`${API_BASE}?${params.toString()}`, {
-    cache: "no-store",
+    next: { revalidate: REVALIDATE_SECONDS },
   });
   if (!response.ok) {
     throw new Error(`Fandom API falhou: ${response.status}`);

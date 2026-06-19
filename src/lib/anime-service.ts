@@ -7,17 +7,217 @@ import {
   MangaSuggestion,
   AnimeSong,
 } from "@/types/anime";
-import { fetchFandomCategories } from "./fandom-scraper";
 import { fetchAnimeSongs } from "./music-scraper";
 
 const JIKAN_API_BASE = "https://api.jikan.moe/v4";
-const KITSU_API_BASE = "https://kitsu.io/api/edge";
 const ANILIST_API_URL = "https://graphql.anilist.co";
 const DEFAULT_REVALIDATE_SECONDS = 60 * 30;
-const CATEGORY_ANIME_LIMIT = 25;
+const SLOW_REVALIDATE_SECONDS = 60 * 60 * 6;
+const CATEGORY_ANIME_LIMIT = 12;
+
+const FAST_CATEGORIES: AnimeCategory[] = [
+  {
+    name: "Clássicos",
+    animes: [
+      {
+        id: 20,
+        title: "Naruto",
+        score: 7.9,
+        synopsis:
+          "Um jovem ninja busca reconhecimento enquanto aprende o peso de proteger seus vínculos.",
+        genres: ["Ação", "Aventura"],
+        year: 2002,
+        status: "Finalizado",
+        poster:
+          "https://cdn.myanimelist.net/images/anime/13/17405l.jpg",
+        banner:
+          "https://cdn.myanimelist.net/images/anime/13/17405l.jpg",
+      },
+      {
+        id: 21,
+        title: "One Piece",
+        score: 8.7,
+        synopsis:
+          "Luffy parte ao mar com sua tripulação em busca do maior tesouro do mundo.",
+        genres: ["Aventura", "Fantasia"],
+        year: 1999,
+        status: "Em exibição",
+        poster:
+          "https://cdn.myanimelist.net/images/anime/6/73245l.jpg",
+        banner:
+          "https://cdn.myanimelist.net/images/anime/6/73245l.jpg",
+      },
+      {
+        id: 38000,
+        title: "Demon Slayer",
+        score: 8.5,
+        synopsis:
+          "Tanjiro entra para uma organização de caçadores após sua família ser atacada.",
+        genres: ["Ação", "Sobrenatural"],
+        year: 2019,
+        status: "Em exibição",
+        poster:
+          "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg",
+        banner:
+          "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg",
+      },
+      {
+        id: 1535,
+        title: "Death Note",
+        score: 8.6,
+        synopsis:
+          "Um estudante encontra um caderno capaz de matar pessoas e inicia um jogo psicológico com a polícia.",
+        genres: ["Mistério", "Suspense"],
+        year: 2006,
+        status: "Finalizado",
+        poster:
+          "https://cdn.myanimelist.net/images/anime/9/9453l.jpg",
+        banner:
+          "https://cdn.myanimelist.net/images/anime/9/9453l.jpg",
+      },
+    ],
+  },
+  {
+    name: "Ação recente",
+    animes: [
+      {
+        id: 16498,
+        title: "Attack on Titan",
+        score: 8.5,
+        synopsis:
+          "Humanidade, muralhas e titãs entram em conflito numa história de guerra e sobrevivência.",
+        genres: ["Ação", "Drama"],
+        year: 2013,
+        status: "Finalizado",
+        poster:
+          "https://cdn.myanimelist.net/images/anime/10/47347l.jpg",
+        banner:
+          "https://cdn.myanimelist.net/images/anime/10/47347l.jpg",
+      },
+      {
+        id: 40748,
+        title: "Jujutsu Kaisen",
+        score: 8.6,
+        synopsis:
+          "Yuji Itadori entra no mundo das maldições após engolir um objeto amaldiçoado.",
+        genres: ["Ação", "Sobrenatural"],
+        year: 2020,
+        status: "Em exibição",
+        poster:
+          "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg",
+        banner:
+          "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg",
+      },
+      {
+        id: 5114,
+        title: "Fullmetal Alchemist: Brotherhood",
+        score: 9.1,
+        synopsis:
+          "Dois irmãos alquimistas buscam recuperar seus corpos após uma transmutação proibida.",
+        genres: ["Aventura", "Drama"],
+        year: 2009,
+        status: "Finalizado",
+        poster:
+          "https://cdn.myanimelist.net/images/anime/1208/94745l.jpg",
+        banner:
+          "https://cdn.myanimelist.net/images/anime/1208/94745l.jpg",
+      },
+    ],
+  },
+];
+
+export function getFastAnimeCategories(): AnimeCategory[] {
+  return FAST_CATEGORIES;
+}
+
+type NamedResource = {
+  name: string;
+};
+
+type ImageUrls = {
+  image_url?: string;
+  large_image_url?: string;
+};
+
+type JikanAnime = {
+  mal_id: number;
+  title?: string;
+  score?: number | null;
+  synopsis?: string | null;
+  genres?: NamedResource[];
+  year?: number | null;
+  aired?: {
+    prop?: { from?: { year?: number | null } };
+    from?: string | null;
+  };
+  status?: string | null;
+  images?: {
+    webp?: ImageUrls;
+    jpg?: ImageUrls;
+  };
+  season?: string | null;
+  broadcast?: { string?: string | null };
+  episodes?: number | null;
+  duration?: string | null;
+};
+
+type AniListMedia = {
+  id?: number | null;
+  idMal?: number | null;
+  title?: {
+    romaji?: string | null;
+    english?: string | null;
+    native?: string | null;
+  };
+  averageScore?: number | null;
+  description?: string | null;
+  genres?: string[];
+  seasonYear?: number | null;
+  status?: string | null;
+  coverImage?: {
+    extraLarge?: string;
+    large?: string;
+    medium?: string;
+  };
+  bannerImage?: string | null;
+};
+
+type JikanCharacterEntry = {
+  role?: string;
+  character?: {
+    mal_id: number;
+    name?: string;
+    images?: {
+      webp?: { image_url?: string };
+      jpg?: { image_url?: string };
+    };
+  };
+};
+
+type JikanStreamingEntry = {
+  name?: string;
+  url?: string;
+};
+
+type MangaDexRelationship = {
+  type?: string;
+  attributes?: {
+    fileName?: string;
+  };
+};
+
+type MangaDexEntry = {
+  id: string;
+  attributes?: {
+    title?: Record<string, string>;
+    description?: Record<string, string>;
+  };
+  relationships?: MangaDexRelationship[];
+};
 
 async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
+    signal: init?.signal ?? AbortSignal.timeout(2500),
     next: { revalidate: DEFAULT_REVALIDATE_SECONDS },
     ...init,
   });
@@ -69,21 +269,23 @@ function formatSeason(season?: string | null, year?: number | null): string | nu
   return year ? `${base} ${year}` : base;
 }
 
-function mapJikanAnimeSummary(source: any): AnimeSummary {
+function getJikanYear(source: JikanAnime): number | null {
+  if (source.year) return source.year;
+  if (source.aired?.prop?.from?.year) return source.aired.prop.from.year;
+  if (source.aired?.from) return new Date(source.aired.from).getFullYear();
+  return null;
+}
+
+function mapJikanAnimeSummary(source: JikanAnime): AnimeSummary {
   return {
     id: source.mal_id,
-    title: source.title,
+    title: source.title ?? "Título indisponível",
     score: source.score ?? null,
     synopsis: source.synopsis ?? "Sinopse indisponível no momento.",
     genres: Array.isArray(source.genres)
-      ? source.genres.map((genre: any) => genre.name)
+      ? source.genres.map((genre) => genre.name)
       : [],
-    year:
-      source.year ??
-      source.aired?.prop?.from?.year ??
-      source.aired?.from
-        ? new Date(source.aired.from).getFullYear()
-        : null,
+    year: getJikanYear(source),
     status: source.status ?? null,
     poster:
       source.images?.webp?.large_image_url ??
@@ -100,64 +302,11 @@ function mapJikanAnimeSummary(source: any): AnimeSummary {
   };
 }
 
-async function fetchKitsuCategory(slug: string, limit = CATEGORY_ANIME_LIMIT * 2): Promise<AnimeSummary[]> {
-  const params = new URLSearchParams({
-    "filter[categories]": slug,
-    "page[limit]": String(limit),
-    "sort": "-averageRating",
-  });
-
-  const data = await fetchJson<any>(`${KITSU_API_BASE}/anime?${params.toString()}`);
-
-  if (!Array.isArray(data)) return [];
-
-  return data
-    .map((entry) => mapKitsuAnimeSummary(entry))
-    .filter((anime) => Boolean(anime.title));
-}
-
-function mapKitsuAnimeSummary(entry: any): AnimeSummary {
-  const attributes = entry?.attributes ?? {};
-  const title =
-    attributes.titles?.en_jp ??
-    attributes.canonicalTitle ??
-    attributes.titles?.en ??
-    attributes.titles?.ja_jp ??
-    "Título indisponível";
-
-  const averageRating = attributes.averageRating
-    ? Number(attributes.averageRating) / 10
-    : null;
-
-  const primaryGenre = attributes.subtype ?? attributes.showType ?? null;
-
-  return {
-    id: Number(entry?.id) || Math.floor(Math.random() * 1_000_000_000),
-    title,
-    score: averageRating,
-    synopsis: attributes.synopsis ?? "Sinopse indisponível.",
-    genres: primaryGenre ? [String(primaryGenre).toUpperCase()] : [],
-    year: attributes.startDate ? new Date(attributes.startDate).getFullYear() : null,
-    status: attributes.status ?? null,
-    poster:
-      attributes.posterImage?.large ??
-      attributes.posterImage?.original ??
-      attributes.posterImage?.small ??
-      "",
-    banner:
-      attributes.coverImage?.large ??
-      attributes.coverImage?.original ??
-      attributes.posterImage?.large ??
-      attributes.posterImage?.original ??
-      "",
-  };
-}
-
 async function fetchJikanCategories(): Promise<AnimeCategory[]> {
   const [popular, airing, upcoming] = await Promise.all([
-    fetchJson<any[]>(`${JIKAN_API_BASE}/top/anime?limit=${CATEGORY_ANIME_LIMIT}`),
-    fetchJson<any[]>(`${JIKAN_API_BASE}/seasons/now?limit=${CATEGORY_ANIME_LIMIT}`),
-    fetchJson<any[]>(`${JIKAN_API_BASE}/seasons/upcoming?limit=${CATEGORY_ANIME_LIMIT}`),
+    fetchJson<JikanAnime[]>(`${JIKAN_API_BASE}/top/anime?limit=${CATEGORY_ANIME_LIMIT}`),
+    fetchJson<JikanAnime[]>(`${JIKAN_API_BASE}/seasons/now?limit=${CATEGORY_ANIME_LIMIT}`),
+    fetchJson<JikanAnime[]>(`${JIKAN_API_BASE}/seasons/upcoming?limit=${CATEGORY_ANIME_LIMIT}`),
   ]);
 
   return [
@@ -174,29 +323,6 @@ async function fetchJikanCategories(): Promise<AnimeCategory[]> {
       animes: upcoming.map(mapJikanAnimeSummary),
     },
   ].filter((category) => category.animes.length > 0);
-}
-
-async function fetchKitsuCategories(): Promise<AnimeCategory[]> {
-  const KITSU_CATEGORY_SPECS = [
-    { slug: "adventure", name: "Kitsu • Aventura" },
-    { slug: "fantasy", name: "Kitsu • Fantasia" },
-    { slug: "slice-of-life", name: "Kitsu • Cotidiano" },
-    { slug: "sci-fi", name: "Kitsu • Ficção Científica" },
-  ];
-
-  const results = await Promise.all(
-    KITSU_CATEGORY_SPECS.map(async ({ slug, name }) => {
-      try {
-        const animes = await fetchKitsuCategory(slug, CATEGORY_ANIME_LIMIT * 2);
-        if (animes.length === 0) return null;
-        return { name, animes } satisfies AnimeCategory;
-      } catch {
-        return null;
-      }
-    })
-  );
-
-  return results.filter((category): category is AnimeCategory => Boolean(category));
 }
 
 const ANILIST_CATEGORY_QUERY = /* GraphQL */ `
@@ -231,7 +357,7 @@ const ANILIST_CATEGORY_QUERY = /* GraphQL */ `
   }
 `;
 
-function mapAniListAnimeSummary(entry: any): AnimeSummary | null {
+function mapAniListAnimeSummary(entry: AniListMedia): AnimeSummary | null {
   const media = entry ?? {};
   const titleBlock = media.title ?? {};
   const idMal = media.idMal ? Number(media.idMal) : null;
@@ -271,7 +397,7 @@ async function fetchAniListCategory(
 ): Promise<AnimeCategory | null> {
   try {
     const data = await fetchAniList<{
-      Page: { media: any[] };
+      Page: { media: AniListMedia[] };
     }>({
       query: ANILIST_CATEGORY_QUERY,
       variables: {
@@ -316,24 +442,20 @@ async function fetchAniListCategories(): Promise<AnimeCategory[]> {
 }
 
 export async function fetchAnimeCategories(): Promise<AnimeCategory[]> {
-  const [jikanCategories, kitsuCategories, aniListCategories, fandomCategories] =
+  const [jikanCategories, aniListCategories] =
     await Promise.all([
-      fetchJikanCategories(),
-      fetchKitsuCategories(),
-      fetchAniListCategories(),
-      fetchFandomCategories(),
+      fetchJikanCategories().catch(() => []),
+      fetchAniListCategories().catch(() => []),
     ]);
 
   const allCategories = [
     ...jikanCategories,
-    ...kitsuCategories,
     ...aniListCategories,
-    ...fandomCategories,
   ];
 
   const seenGlobal = new Set<string>();
 
-  return allCategories
+  const categories = allCategories
     .map((category) => {
       const seenLocal = new Set<string>();
       const filtered: AnimeSummary[] = [];
@@ -363,25 +485,24 @@ export async function fetchAnimeCategories(): Promise<AnimeCategory[]> {
       };
     })
     .filter((category) => category.animes.length > 0);
+
+  return categories.length > 0 ? categories : FAST_CATEGORIES;
 }
 
 export async function fetchAnimeDetail(id: string): Promise<AnimeDetail | null> {
   if (!id) return null;
 
   try {
-    const detail = await fetchJson<any>(`${JIKAN_API_BASE}/anime/${id}/full`);
+    const detail = await fetchJson<JikanAnime>(`${JIKAN_API_BASE}/anime/${id}/full`);
 
     return {
       id: detail.mal_id,
-      title: detail.title,
+      title: detail.title ?? "Título indisponível",
       synopsis: detail.synopsis ?? "Sinopse indisponível.",
       genres: Array.isArray(detail.genres)
-        ? detail.genres.map((genre: any) => genre.name)
+        ? detail.genres.map((genre) => genre.name)
         : [],
-      year:
-        detail.year ??
-        detail.aired?.prop?.from?.year ??
-        (detail.aired?.from ? new Date(detail.aired.from).getFullYear() : null),
+      year: getJikanYear(detail),
       season:
         formatSeason(detail.season, detail.year) ?? detail.broadcast?.string ?? null,
       status: detail.status ?? null,
@@ -412,15 +533,19 @@ export async function fetchAnimeCharacters(
   if (!id) return [];
 
   try {
-    const characters = await fetchJson<any[]>(`${JIKAN_API_BASE}/anime/${id}/characters`);
+    const characters = await fetchJson<JikanCharacterEntry[]>(`${JIKAN_API_BASE}/anime/${id}/characters`);
 
     const mapped = characters
-      .filter((entry) => entry.character)
+      .filter(
+        (entry): entry is JikanCharacterEntry & {
+          character: NonNullable<JikanCharacterEntry["character"]>;
+        } => Boolean(entry.character)
+      )
       .slice(0, 8)
       .map((entry) => ({
         id: entry.character.mal_id,
-        name: entry.character.name,
-        role: entry.role,
+        name: entry.character.name ?? "Personagem",
+        role: entry.role ?? "NÃ£o informado",
         image:
           entry.character.images?.webp?.image_url ??
           entry.character.images?.jpg?.image_url ??
@@ -428,24 +553,7 @@ export async function fetchAnimeCharacters(
         about: null as string | null,
       }));
 
-    const enriched = await Promise.all(
-      mapped.map(async (character) => {
-        try {
-          const detail = await fetchJson<any>(
-            `${JIKAN_API_BASE}/characters/${character.id}/full`
-          );
-
-          return {
-            ...character,
-            about: detail?.about?.replace(/\r?\n/g, " ")?.trim() ?? null,
-          };
-        } catch {
-          return character;
-        }
-      })
-    );
-
-    return enriched;
+    return mapped;
   } catch {
     return [];
   }
@@ -457,7 +565,7 @@ export async function fetchAnimeStreaming(
   if (!id) return [];
 
   try {
-    const streaming = await fetchJson<any[]>(`${JIKAN_API_BASE}/anime/${id}/streaming`);
+    const streaming = await fetchJson<JikanStreamingEntry[]>(`${JIKAN_API_BASE}/anime/${id}/streaming`);
 
     return streaming.map((entry) => ({
       name: entry.name ?? "Streaming",
@@ -479,7 +587,7 @@ export async function fetchMangaSuggestions(title: string): Promise<MangaSuggest
 
   try {
     const response = await fetch(`https://api.mangadex.org/manga?${params.toString()}`, {
-      cache: "no-store",
+      next: { revalidate: SLOW_REVALIDATE_SECONDS },
     });
 
     if (!response.ok) {
@@ -487,14 +595,16 @@ export async function fetchMangaSuggestions(title: string): Promise<MangaSuggest
     }
 
     const payload = await response.json();
-    const list = Array.isArray(payload?.data) ? payload.data : [];
+    const list = Array.isArray(payload?.data)
+      ? (payload.data as MangaDexEntry[])
+      : [];
 
-    return list.slice(0, 8).map((entry: any) => {
+    return list.slice(0, 8).map((entry) => {
       const attributes = entry?.attributes ?? {};
       const titleBlock = attributes.title ?? {};
       const relationships = entry?.relationships ?? [];
 
-      const coverRel = relationships.find((rel: any) => rel.type === "cover_art");
+      const coverRel = relationships.find((rel) => rel.type === "cover_art");
       const fileName = coverRel?.attributes?.fileName;
       const cover = fileName
         ? `https://uploads.mangadex.org/covers/${entry.id}/${fileName}.256.jpg`

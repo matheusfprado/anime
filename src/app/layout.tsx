@@ -1,13 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Cinzel } from "next/font/google";
 import "./globals.css";
-
-const cinzel = Cinzel({
-  subsets: ["latin"],
-  variable: "--font-title",
-  weight: ["700", "900"],
-});
 
 export const metadata: Metadata = {
   title: "AnimeVerse Hub Geek",
@@ -23,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="dark">
       <body
-        className={`${cinzel.variable} min-h-screen bg-black text-white antialiased`}
+        className="min-h-screen bg-black font-sans text-white antialiased"
       >
         {/* Navbar translúcida com brilho laranja */}
         <header className="sticky top-0 z-40 border-b border-orange-500/20 bg-gradient-to-r from-black/70 via-black/60 to-black/70 backdrop-blur-md">

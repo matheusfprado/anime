@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import { AnimeSong } from "@/types/anime";
 
 type Props = {
@@ -10,6 +9,7 @@ type Props = {
 
 export function MusicPlayer({ songs }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlayerOpen, setIsPlayerOpen] = useState(false);
 
   const activeSong = songs[activeIndex] ?? null;
 
@@ -48,7 +48,10 @@ export function MusicPlayer({ songs }: Props) {
             {songs.map((song, index) => (
               <button
                 key={`${song.title}-${index}`}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => {
+                  setActiveIndex(index);
+                  setIsPlayerOpen(false);
+                }}
                 className={`rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] transition ${
                   index === activeIndex
                     ? "border-yellow-300/70 bg-yellow-200/20 text-yellow-200 shadow-[0_0_16px_rgba(255,200,0,0.3)]"
@@ -60,18 +63,24 @@ export function MusicPlayer({ songs }: Props) {
             ))}
           </div>
 
-          {activeSong && embedUrl ? (
-            <motion.iframe
+          {activeSong && embedUrl && isPlayerOpen ? (
+            <iframe
               key={embedUrl}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
+             
               src={embedUrl}
               title={activeSong.title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               className="aspect-video w-full rounded-3xl border border-white/10 bg-black/40 shadow-[0_0_40px_rgba(255,200,0,0.25)]"
             />
+          ) : activeSong && embedUrl ? (
+            <button
+              type="button"
+              onClick={() => setIsPlayerOpen(true)}
+              className="aspect-video w-full rounded-3xl border border-white/10 bg-black/40 text-sm font-semibold uppercase tracking-[0.3em] text-yellow-200 transition hover:border-yellow-300/50"
+            >
+              carregar player
+            </button>
           ) : (
             <div className="rounded-3xl border border-white/10 bg-black/30 p-6 text-sm text-zinc-200">
               {activeSong?.url ? (

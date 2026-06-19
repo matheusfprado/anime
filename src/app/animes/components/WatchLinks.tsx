@@ -1,5 +1,3 @@
-"use client";
-
 import { StreamingLink } from "@/types/anime";
 
 type WatchLinksProps = {

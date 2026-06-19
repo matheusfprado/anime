@@ -1,10 +1,7 @@
-"use client";
-
-import { useMemo } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { motion } from "framer-motion";
 import { ANIME_CUSTOM_DATA } from "@/app/data/animeCustomData";
+import { PosterFallback } from "@/app/components/PosterFallback";
 import { CharactersList } from "../components/CharactersList";
 import { WatchLinks } from "../components/WatchLinks";
 import { MangaList } from "../components/MangaList";
@@ -26,15 +23,7 @@ type Props = {
 };
 
 export function AnimeDetailContent({ anime, characters, streaming, mangas, songs }: Props) {
-  const customization = useMemo(
-    () => ANIME_CUSTOM_DATA.find((entry) => entry.title === anime.title),
-    [anime.title]
-  );
-
-  const backgroundImage =
-    customization?.backgroundImage ||
-    anime.banner ||
-    anime.poster;
+  const customization = ANIME_CUSTOM_DATA.find((entry) => entry.title === anime.title);
 
   const synopsis = customization?.synopsis || anime.synopsis;
 
@@ -153,28 +142,16 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
 
   return (
     <main className="relative min-h-screen select-none overflow-y-auto text-white">
-      <motion.div
+      <div
         key={anime.id}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="absolute inset-0 -z-50"
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          filter: "brightness(0.45) saturate(1.1)",
-        }}
+        className="absolute inset-0 -z-50 bg-[radial-gradient(circle_at_top_left,_rgba(250,204,21,0.18),_transparent_38%),radial-gradient(circle_at_bottom_right,_rgba(249,115,22,0.14),_transparent_42%),#050505]"
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/90 backdrop-blur-[2px]" />
-      </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/55 to-black/90" />
+      </div>
 
       <div className="relative z-10 mx-auto max-w-6xl space-y-20 px-6 py-14">
-        <motion.div
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4 }}
+        <div
+         
         >
           <Link
             href="/animes"
@@ -183,13 +160,11 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
             <ArrowLeft size={20} />
             <span className="font-medium">Voltar</span>
           </Link>
-        </motion.div>
+        </div>
 
         <div className="flex flex-col gap-10 lg:flex-row">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+          <div
+           
             className="flex-1 space-y-6"
           >
             <h1 className="mb-4 text-5xl font-extrabold text-yellow-300 drop-shadow-[0_0_25px_rgba(255,200,0,0.5)] md:text-6xl">
@@ -231,73 +206,56 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
                 value={anime.duration ?? "Indefinido"}
               />
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+          <div
+           
             className="flex-1"
           >
             <div className="overflow-hidden rounded-3xl border border-white/15 bg-black/40 p-6 backdrop-blur">
               <div className="relative overflow-hidden rounded-2xl border border-white/10">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={anime.poster}
-                  alt={anime.title}
-                  className="h-full w-full object-cover"
-                />
+                <PosterFallback title={anime.title} />
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-yellow-500/40 to-transparent" />
 
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+        <div
+         
           id="personagens"
         >
           <CharactersList characters={characters} />
-        </motion.div>
+        </div>
 
-        <motion.div
+        <div
           id="watch"
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+         
         >
           <WatchLinks links={streaming} />
-        </motion.div>
+        </div>
 
-        <motion.section
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+        <section
+         
           className="space-y-6"
         >
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
             Mangás para baixar
           </h2>
           <MangaList items={mangas} />
-        </motion.section>
+        </section>
 
-        <motion.section
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+        <section
+         
           className="space-y-6"
         >
           <MusicPlayer songs={songs} />
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="lore"
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
+         
           className="space-y-6"
         >
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
@@ -305,12 +263,9 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
           </h2>
           <div className="grid gap-4 md:grid-cols-3">
             {loreTimeline.map((node, index) => (
-              <motion.article
+              <article
                 key={`${node.era}-${index}`}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.35, delay: index * 0.05 }}
+               
                 className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-5 backdrop-blur"
               >
                 <span className="text-xs uppercase tracking-[0.35em] text-yellow-200">
@@ -320,16 +275,14 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
                   {node.highlight}
                 </p>
                 <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-yellow-400/50 to-transparent" />
-              </motion.article>
+              </article>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="colecionaveis"
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.75 }}
+         
           className="space-y-6"
         >
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
@@ -360,13 +313,11 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
               </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="cross-media"
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+         
           className="space-y-6"
         >
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
@@ -374,12 +325,9 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {crossMedia.map((entry, index) => (
-              <motion.a
+              <a
                 key={`${entry.title}-${index}`}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.35 }}
+               
                 href={entry.url ?? "#"}
                 target={entry.url ? "_blank" : undefined}
                 rel={entry.url ? "noopener noreferrer" : undefined}
@@ -402,16 +350,14 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
                     recomendado pela guilda
                   </span>
                 )}
-              </motion.a>
+              </a>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="tech"
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.85 }}
+         
           className="space-y-6"
         >
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
@@ -430,13 +376,11 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
               </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="trivia"
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
+         
           className="space-y-6"
         >
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
@@ -453,13 +397,11 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
               </li>
             ))}
           </ul>
-        </motion.section>
+        </section>
 
-        <motion.section
+        <section
           id="comunidade"
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.95 }}
+         
           className="space-y-6"
         >
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
@@ -490,7 +432,7 @@ export function AnimeDetailContent({ anime, characters, streaming, mangas, songs
               </div>
             ))}
           </div>
-        </motion.section>
+        </section>
       </div>
     </main>
   );

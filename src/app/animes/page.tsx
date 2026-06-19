@@ -1,8 +1,8 @@
-import { fetchAnimeCategories } from "@/lib/anime-service";
+import { getFastAnimeCategories } from "@/lib/anime-service";
 import AnimesDashboard from "../components/AnimesDashboard";
 
-export default async function Page() {
-  const categories = await fetchAnimeCategories();
+export default function Page() {
+  const categories = getFastAnimeCategories();
   return <AnimesDashboard categories={categories} />;
 }
  

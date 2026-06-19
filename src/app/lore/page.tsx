@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ANIME_CUSTOM_DATA } from "@/app/data/animeCustomData";
 import { LORE_SPOTLIGHTS } from "@/app/data/hubContent";
 
@@ -45,10 +44,8 @@ export default function LorePage() {
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_top,_rgba(255,160,0,0.25),transparent_55%)]" />
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_bottom,_rgba(110,70,255,0.25),transparent_60%)]" />
 
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+      <section
+       
         className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-24 pt-28"
       >
         <header className="space-y-6">
@@ -113,11 +110,9 @@ export default function LorePage() {
         </section>
 
         <section className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <motion.div
+          <div
             key={active?.title}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45 }}
+           
             className="space-y-6 rounded-3xl border border-white/10 bg-black/35 p-6"
           >
             <div className="flex items-center justify-between">
@@ -144,13 +139,11 @@ export default function LorePage() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
+          <div
             key={`${active?.title}-cross`}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.05 }}
+           
             className="space-y-6 rounded-3xl border border-white/10 bg-black/35 p-6"
           >
             <h3 className="text-lg font-semibold uppercase tracking-[0.35em] text-white">
@@ -184,7 +177,7 @@ export default function LorePage() {
                 ))}
               </div>
             )}
-          </motion.div>
+          </div>
         </section>
 
         <section className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
@@ -239,7 +232,7 @@ export default function LorePage() {
             )}
           </div>
         </section>
-      </motion.section>
+      </section>
     </main>
   );
 }

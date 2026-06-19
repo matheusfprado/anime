@@ -3,7 +3,10 @@ module.exports = {
   content: ["./src/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
-      fontFamily: { title: "var(--font-title)" },
+      fontFamily: {
+        sans: '"Trebuchet MS", "Segoe UI", Arial, sans-serif',
+        title: '"Arial Black", "Trebuchet MS", "Segoe UI", sans-serif',
+      },
       colors: {
         "brand-gold": "#f2c14e",
         "panel": "rgba(12,12,16,0.75)",

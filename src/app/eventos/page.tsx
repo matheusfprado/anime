@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { EVENT_SCHEDULE } from "@/app/data/hubContent";
 
@@ -29,10 +26,8 @@ export default function EventosPage() {
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_top,_rgba(70,130,255,0.28),transparent_55%)]" />
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_bottom,_rgba(0,220,200,0.22),transparent_60%)]" />
 
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+      <section
+       
         className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-24 pt-28"
       >
         <header className="space-y-6">
@@ -161,7 +156,7 @@ export default function EventosPage() {
             ))}
           </div>
         </section>
-      </motion.section>
+      </section>
     </main>
   );
 }
