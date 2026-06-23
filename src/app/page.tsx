@@ -1,10 +1,10 @@
 import Link from "next/link";
+import { ComingSoon } from "./components/ComingSoon";
 import {
   LORE_SPOTLIGHTS,
   COLLECTIBLE_DROPS,
   COMMUNITY_TRACKS,
   EVENT_SCHEDULE,
-  TECH_STACKS,
 } from "@/app/data/hubContent";
 
 const featureLinks = [
@@ -15,25 +15,25 @@ const featureLinks = [
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen overflow-hidden text-white">
+    <main className="relative min-h-dvh overflow-x-hidden text-white">
       <div className="absolute inset-0 -z-30 overflow-hidden">
         <div className="absolute inset-0 bg-[#09090b]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(249,115,22,0.22),_transparent_38%),radial-gradient(circle_at_bottom_right,_rgba(79,70,229,0.18),_transparent_42%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(120deg,_rgba(255,255,255,0.06)_1px,_transparent_1px)] bg-[length:180px_180px] opacity-30" />
       </div>
-      <div className="relative z-20 mx-auto flex w-full max-w-6xl flex-col gap-16 px-6 pb-24 pt-28 md:pt-36">
+      <div className="relative z-20 mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 pb-16 pt-10 sm:gap-16 sm:px-6 sm:pb-24 sm:pt-14 md:pt-20">
         <header
          
           className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
         >
           <div>
-            <h1 className="mt-6 flex flex-wrap items-center gap-3 text-5xl font-black md:text-6xl">
-              <span className="bg-gradient-to-br from-orange-200 via-orange-500 to-orange-700 bg-clip-text text-transparent drop-shadow-[0_8px_30px_rgba(249,115,22,0.45)]">
+            <h1 className="mt-4 flex flex-wrap items-center gap-2 text-4xl font-black sm:gap-3 sm:text-5xl md:mt-6 md:text-6xl">
+              <span className="bg-gradient-to-br from-cyan-200 via-cyan-400 to-violet-400 bg-clip-text text-transparent drop-shadow-[0_8px_30px_rgba(103,232,249,0.35)]">
                 Anime
               </span>
               <span className="text-white drop-shadow-[0_8px_30px_rgba(0,0,0,0.45)]">Verse</span>
-              <span className="text-sm font-semibold uppercase tracking-[0.35em] text-yellow-200 md:text-base">
-                hub geek
+              <span className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-200 md:text-base">
+                comunidade de anime
               </span>
             </h1>
             <p className="mt-4 max-w-3xl text-base text-zinc-200 md:text-lg">
@@ -45,9 +45,9 @@ export default function Home() {
           <div className="flex flex-wrap gap-3 md:flex-col md:items-end">
             <Link
               href="/lore"
-              className="inline-flex items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-600 px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_35px_rgba(249,115,22,0.45)] transition hover:-translate-y-0.5 hover:brightness-110"
+            className="inline-flex items-center justify-center rounded-full bg-gradient-to-br from-cyan-300 to-violet-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_12px_35px_rgba(103,232,249,0.3)] transition hover:-translate-y-0.5 hover:brightness-110"
             >
-              Explorar hub geek
+              Conhecer a comunidade
             </Link>
             <Link
               href="/animes"
@@ -55,14 +55,9 @@ export default function Home() {
             >
               Ver catálogo
             </Link>
-            <a
-              href="https://discord.gg/animeverse"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full border border-yellow-300/70 bg-yellow-200/15 px-6 py-3 text-sm font-semibold uppercase tracking-[0.32em] text-yellow-200 transition hover:border-yellow-200 hover:text-white"
-            >
-              Abrir sala da guilda
-            </a>
+            <ComingSoon className="px-6 py-3 text-sm">
+              Entrar na comunidade
+            </ComingSoon>
           </div>
         </header>
 
@@ -70,13 +65,13 @@ export default function Home() {
          
           className="grid gap-6 md:grid-cols-[1.3fr_0.7fr]"
         >
-          <div className="relative overflow-hidden rounded-3xl border border-orange-300/40 bg-[rgba(39,10,12,0.75)] p-10 shadow-[0_25px_75px_rgba(249,115,22,0.35)]">
+          <div className="relative overflow-hidden rounded-3xl border border-orange-300/40 bg-[rgba(39,10,12,0.75)] p-6 shadow-[0_25px_75px_rgba(249,115,22,0.35)] sm:p-10">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.12),_transparent_65%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(135deg,_rgba(255,255,255,0.12)_15%,_transparent_60%)]" />
             <div className="relative flex h-full flex-col justify-between">
               <div className="flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-orange-200">
                 <span className="h-px w-12 bg-orange-500/70" />
-                <span>hub principal</span>
+                <span>para fãs de anime</span>
               </div>
               <div className="space-y-4">
                 <h2 className="text-4xl font-semibold text-white drop-shadow-[0_12px_40px_rgba(249,115,22,0.3)]">
@@ -88,7 +83,6 @@ export default function Home() {
                     "Teorias",
                     "Watch party",
                     "Colecionáveis",
-                    "Tech",
                   ].map((item) => (
                     <span
                       key={item}
@@ -99,7 +93,7 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-              <div className="mt-8 grid grid-cols-3 gap-4 text-center text-xs text-zinc-200">
+              <div className="mt-8 grid gap-3 text-center text-xs text-zinc-200 sm:grid-cols-3 sm:gap-4">
                 <div className="rounded-2xl border border-white/10 bg-[rgba(34,8,10,0.8)] p-4">
                   <p className="text-lg font-semibold text-white">24/7</p>
                   <span className="text-[10px] uppercase tracking-[0.3em] text-orange-200">
@@ -122,7 +116,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative flex items-end overflow-hidden rounded-3xl border border-white/15 bg-[rgba(41,9,12,0.78)] p-8 shadow-[0_20px_60px_rgba(120,20,0,0.45)]">
+          <div className="relative flex items-end overflow-hidden rounded-3xl border border-white/15 bg-[rgba(41,9,12,0.78)] p-6 shadow-[0_20px_60px_rgba(120,20,0,0.45)] sm:p-8">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(249,115,22,0.4),_transparent_65%)]" />
             <div className="relative w-full space-y-6">
               <div className="flex items-center justify-between text-xs text-orange-200">
@@ -151,7 +145,7 @@ export default function Home() {
 
         <section
          
-          className="rounded-3xl border border-orange-300/35 bg-[rgba(36,9,11,0.78)] p-8 shadow-[0_22px_70px_rgba(249,115,22,0.3)]"
+          className="rounded-3xl border border-orange-300/35 bg-[rgba(36,9,11,0.78)] p-6 shadow-[0_22px_70px_rgba(249,115,22,0.3)] sm:p-8"
         >
           <div className="flex flex-col gap-6 text-center md:flex-row md:items-center md:justify-between md:text-left">
             <h2 className="text-2xl font-semibold text-white">
@@ -174,7 +168,7 @@ export default function Home() {
         <section
           id="lore"
          
-          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(249,115,22,0.25)] backdrop-blur"
+          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-6 shadow-[0_22px_70px_rgba(249,115,22,0.25)] backdrop-blur sm:p-8"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <h2 className="text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(255,200,0,0.35)]">
@@ -210,7 +204,7 @@ export default function Home() {
         <section
           id="colecionaveis"
          
-          className="space-y-8 rounded-3xl border border-orange-400/30 bg-[rgba(36,9,11,0.78)] p-8 shadow-[0_22px_70px_rgba(249,115,22,0.28)]"
+          className="space-y-8 rounded-3xl border border-orange-400/30 bg-[rgba(36,9,11,0.78)] p-6 shadow-[0_22px_70px_rgba(249,115,22,0.28)] sm:p-8"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <h2 className="text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(249,115,22,0.4)]">
@@ -247,7 +241,7 @@ export default function Home() {
         <section
           id="comunidade"
          
-          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(180,80,255,0.25)]"
+          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-6 shadow-[0_22px_70px_rgba(180,80,255,0.25)] sm:p-8"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <h2 className="text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(180,80,255,0.45)]">
@@ -301,7 +295,7 @@ export default function Home() {
         <section
           id="eventos"
          
-          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(100,180,255,0.25)]"
+          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-6 shadow-[0_22px_70px_rgba(100,180,255,0.25)] sm:p-8"
         >
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <h2 className="text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(100,180,255,0.45)]">
@@ -333,37 +327,6 @@ export default function Home() {
                   <span>sincronia ao vivo</span>
                   <span>slots limitados</span>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section
-          id="tech"
-         
-          className="space-y-8 rounded-3xl border border-white/10 bg-black/35 p-8 shadow-[0_22px_70px_rgba(255,200,0,0.2)]"
-        >
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <h2 className="text-3xl font-semibold text-white drop-shadow-[0_0_20px_rgba(255,200,0,0.35)]">
-              Tech & gadgets para elevar sua experiência geek
-            </h2>
-            <span className="text-xs uppercase tracking-[0.35em] text-yellow-200">
-              download imediato
-            </span>
-          </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {TECH_STACKS.map((stack) => (
-              <div
-                key={stack.title}
-                className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-black/40 p-6"
-              >
-                <h3 className="text-xl font-semibold text-white">
-                  {stack.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-200">
-                  {stack.description}
-                </p>
-                <div className="mt-6 h-[1px] w-full bg-gradient-to-r from-transparent via-yellow-400/40 to-transparent" />
               </div>
             ))}
           </div>

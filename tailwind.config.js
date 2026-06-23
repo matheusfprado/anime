@@ -4,12 +4,13 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: '"Trebuchet MS", "Segoe UI", Arial, sans-serif',
-        title: '"Arial Black", "Trebuchet MS", "Segoe UI", sans-serif',
+        sans: '"Orbitron", "Segoe UI", Arial, sans-serif',
+        title: '"Orbitron", "Segoe UI", Arial, sans-serif',
       },
       colors: {
-        "brand-gold": "#f2c14e",
-        "panel": "rgba(12,12,16,0.75)",
+        "brand-cyan": "#67e8f9",
+        "brand-violet": "#8b5cf6",
+        "panel": "rgba(10, 16, 35, 0.78)",
       },
       borderRadius: { xl2: "1.25rem" },
     },

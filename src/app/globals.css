@@ -7,7 +7,7 @@
   h2,
   h3,
   .anime-title {
-    font-family: "Arial Black", "Trebuchet MS", "Segoe UI", sans-serif;
+    font-family: "Orbitron", "Segoe UI", Arial, sans-serif;
     letter-spacing: 0;
   }
 }
@@ -21,25 +21,25 @@ body::before {
   background:
     radial-gradient(
       60% 50% at 15% 15%,
-      rgba(255, 170, 0, 0.15),
+      rgba(103, 232, 249, 0.14),
       transparent 60%
     ),
     radial-gradient(
       60% 50% at 85% 85%,
-      rgba(255, 70, 60, 0.12),
+      rgba(139, 92, 246, 0.14),
       transparent 60%
     ),
     radial-gradient(
       40% 40% at 50% 70%,
-      rgba(50, 120, 255, 0.12),
+      rgba(56, 189, 248, 0.1),
       transparent 70%
     );
 }
 
 .btn-gold {
-  background: linear-gradient(180deg, #ffd36a 0%, #f2b43b 100%);
-  color: #1a1206;
-  box-shadow: 0 6px 20px rgba(255, 191, 0, 0.25);
+  background: linear-gradient(135deg, #67e8f9 0%, #8b5cf6 100%);
+  color: #080b1a;
+  box-shadow: 0 6px 20px rgba(103, 232, 249, 0.25);
 }
 .btn-gold:hover {
   filter: brightness(1.02);
@@ -64,6 +64,76 @@ body::before {
 }
 
 html, body {
-  height: auto;
-  overflow-y: auto;
+  min-height: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+:focus-visible {
+  outline: 2px solid #fde047;
+  outline-offset: 3px;
+}
+
+main a[class*="rounded"],
+main button[class*="rounded"] {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+.community-copy {
+  font-family: "Segoe UI", Arial, sans-serif;
+  letter-spacing: normal;
+}
+
+@media (max-width: 640px) {
+  main {
+    min-width: 0;
+  }
+
+  main [class*="tracking-["] {
+    letter-spacing: 0.12em;
+  }
+
+  main .p-6 {
+    padding: 1rem;
+  }
+
+  main .p-8,
+  main .p-10 {
+    padding: 1.25rem;
+  }
+
+  main .text-3xl {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  main p {
+    overflow-wrap: anywhere;
+  }
+
+  main .rounded-3xl {
+    border-radius: 1.25rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .community-copy {
+    font-size: 1rem;
+  }
+
+  main .text-4xl {
+    font-size: 1.875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

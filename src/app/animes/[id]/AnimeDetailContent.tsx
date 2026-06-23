@@ -100,21 +100,6 @@ export function AnimeDetailContent({
           },
         ]
 
-  const techHighlights =
-    customization?.techHighlights && customization.techHighlights.length > 0
-      ? customization.techHighlights
-      : [
-          {
-            name: 'Overlay animado para streams',
-            description: `Pack gratuito com molduras inspiradas em ${anime.title} para OBS/Streamlabs incluindo alertas e transições sonorizadas.`,
-          },
-          {
-            name: 'Macroboard temático',
-            description:
-              'Layout para Stream Deck / Touch Portal com atalhos de soundboard, cronogramas e links de wiki para narrar sessões geeks.',
-          },
-        ]
-
   const trivia =
     customization?.trivia && customization.trivia.length > 0
       ? customization.trivia
@@ -146,7 +131,7 @@ export function AnimeDetailContent({
         ]
 
   return (
-    <main className="relative min-h-screen select-none overflow-y-auto text-white">
+    <main className="relative min-h-dvh overflow-y-auto text-white">
       <div
         key={anime.id}
         className="absolute inset-0 -z-50 bg-[radial-gradient(circle_at_top_left,_rgba(250,204,21,0.18),_transparent_38%),radial-gradient(circle_at_bottom_right,_rgba(249,115,22,0.14),_transparent_42%),#050505]"
@@ -154,7 +139,7 @@ export function AnimeDetailContent({
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/55 to-black/90" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-6xl space-y-20 px-6 py-14">
+      <div className="relative z-10 mx-auto max-w-6xl space-y-10 px-4 py-8 sm:space-y-16 sm:px-6 sm:py-14 lg:space-y-20">
         <div>
           <Link
             href="/animes"
@@ -167,7 +152,7 @@ export function AnimeDetailContent({
 
         <div className="flex flex-col gap-10 lg:flex-row">
           <div className="flex-1 space-y-6">
-            <h1 className="mb-4 text-5xl font-extrabold text-yellow-300 drop-shadow-[0_0_25px_rgba(255,200,0,0.5)] md:text-6xl">
+            <h1 className="mb-4 break-words text-4xl font-extrabold leading-tight text-yellow-300 drop-shadow-[0_0_25px_rgba(255,200,0,0.5)] sm:text-5xl md:text-6xl">
               {anime.title}
             </h1>
 
@@ -209,8 +194,8 @@ export function AnimeDetailContent({
 
           <div className="flex-1">
             <div className="overflow-hidden rounded-3xl border border-white/15 bg-black/40 p-6 backdrop-blur">
-              <div className="relative overflow-hidden rounded-2xl border border-white/10">
-                <PosterFallback title={anime.title} />
+              <div className="relative aspect-[2/3] min-h-[360px] overflow-hidden rounded-2xl border border-white/10 sm:min-h-[440px] lg:min-h-[520px]">
+                <PosterFallback title={anime.title} src={anime.poster} />
               </div>
             </div>
           </div>
@@ -228,7 +213,7 @@ export function AnimeDetailContent({
 
         <section className="space-y-6">
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
-            Mangás para baixar
+            Mangás relacionados
           </h2>
           <MangaList items={mangas} />
         </section>
@@ -273,7 +258,7 @@ export function AnimeDetailContent({
                   <h3 className="text-lg font-semibold text-white drop-shadow-[0_0_14px_rgba(255,200,0,0.35)]">
                     {item.name}
                   </h3>
-                  {item.link ? (
+                  {item.link && !item.link.includes('discord.gg') ? (
                     <a
                       href={item.link}
                       target="_blank"
@@ -282,6 +267,8 @@ export function AnimeDetailContent({
                     >
                       abrir
                     </a>
+                  ) : item.link ? (
+                    <span className="text-xs uppercase tracking-[0.2em] text-cyan-200">Em breve</span>
                   ) : null}
                 </div>
                 <p className="mt-2 text-sm text-zinc-200">{item.description}</p>
@@ -325,25 +312,6 @@ export function AnimeDetailContent({
           </div>
         </section>
 
-        <section id="tech" className="space-y-6">
-          <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
-            Tech & gadgets para geeks
-          </h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {techHighlights.map((resource) => (
-              <div
-                key={resource.name}
-                className="rounded-2xl border border-white/10 bg-black/35 p-5 text-sm text-zinc-200"
-              >
-                <h3 className="text-lg font-semibold text-white drop-shadow-[0_0_12px_rgba(255,200,0,0.35)]">
-                  {resource.name}
-                </h3>
-                <p className="mt-2 leading-relaxed">{resource.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
         <section id="trivia" className="space-y-6">
           <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
             Trivia & easter eggs
@@ -379,7 +347,7 @@ export function AnimeDetailContent({
                     {hook.description}
                   </p>
                 </div>
-                {hook.link ? (
+                {hook.link && !hook.link.includes('discord.gg') ? (
                   <a
                     href={hook.link}
                     target="_blank"
@@ -388,6 +356,8 @@ export function AnimeDetailContent({
                   >
                     participar ↗
                   </a>
+                ) : hook.link ? (
+                  <span className="mt-4 text-xs uppercase tracking-[0.2em] text-cyan-200">Em breve</span>
                 ) : null}
               </div>
             ))}

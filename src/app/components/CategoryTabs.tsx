@@ -47,7 +47,7 @@ export function CategoryTabs({
   return (
     <div>
       <div className="mb-6 space-y-4 rounded-2xl border border-white/10 bg-black/30 p-4 backdrop-blur">
-        <div className="flex flex-wrap gap-3">
+          <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:gap-3">
           {categories.map((category) => (
             <button
               key={category.name}
@@ -55,7 +55,7 @@ export function CategoryTabs({
                 onCategoryChange(category.name);
                 setQuery("");
               }}
-              className={`rounded-full border px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-all ${
+              className={`shrink-0 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-all sm:px-5 sm:tracking-[0.2em] ${
                 current.name === category.name
                   ? "border-yellow-300/70 bg-yellow-200/20 text-yellow-400"
                   : "border-white/15 bg-white/5 text-white/70 hover:text-yellow-200"
@@ -71,7 +71,7 @@ export function CategoryTabs({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Buscar por título, gênero, ano ou status"
-            className="h-11 w-full rounded-xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-yellow-300/60"
+            className="h-12 w-full rounded-xl border border-white/10 bg-black/40 px-4 text-base text-white outline-none transition placeholder:text-zinc-500 focus:border-yellow-300/60 sm:text-sm"
           />
         </label>
       </div>
@@ -82,26 +82,28 @@ export function CategoryTabs({
             Nenhum anime encontrado nessa categoria.
           </p>
         ) : (
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(110px,1fr))] gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(110px,1fr))] sm:gap-4">
             {visibleAnimes.map((anime) => {
               const isSelected = selectedId === anime.id;
               return (
-                <figure
-                  key={`${current.name}-${anime.id}`}
-                  onClick={() => onSelect(anime)}
-                  className={`cursor-pointer select-none rounded-2xl border bg-black/40 p-2 transition-transform duration-300 hover:-translate-y-1 ${
+              <button
+                type="button"
+                key={`${current.name}-${anime.id}`}
+                onClick={() => onSelect(anime)}
+                aria-pressed={isSelected}
+                className={`cursor-pointer rounded-2xl border bg-black/40 p-2 text-left transition duration-200 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-200 ${
                     isSelected
                       ? "border-yellow-300/80 scale-105"
                       : "border-white/15 hover:border-yellow-300/50"
                   }`}
                 >
                   <div className="relative h-[140px] w-full overflow-hidden rounded-xl bg-black/60">
-                    <PosterFallback title={anime.title} compact />
+                    <PosterFallback title={anime.title} src={anime.poster} compact />
                   </div>
                   <figcaption className="mt-2 w-full truncate text-center text-xs uppercase tracking-[0.25em] text-white/80">
                     {anime.title}
                   </figcaption>
-                </figure>
+              </button>
               );
             })}
           </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ComingSoon } from "../components/ComingSoon";
 import { EVENT_SCHEDULE } from "@/app/data/hubContent";
 
 const SIDE_QUESTS = [
@@ -21,21 +22,21 @@ const SIDE_QUESTS = [
 
 export default function EventosPage() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+    <main className="relative min-h-dvh overflow-x-hidden bg-black text-white">
       <div className="absolute inset-0 -z-40 bg-gradient-to-br from-[#040d24] via-[#0b1a3f] to-[#050612]" />
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_top,_rgba(70,130,255,0.28),transparent_55%)]" />
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_bottom,_rgba(0,220,200,0.22),transparent_60%)]" />
 
       <section
        
-        className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-24 pt-28"
+        className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-16 pt-10 sm:gap-12 sm:px-6 sm:pb-24 sm:pt-14"
       >
         <header className="space-y-6">
           <span className="inline-flex items-center gap-2 rounded-full border border-blue-300/40 bg-blue-500/10 px-4 py-1 text-[11px] uppercase tracking-[0.4em] text-blue-200">
             watch party hq
           </span>
           <div className="space-y-4">
-            <h1 className="text-4xl font-extrabold text-white drop-shadow-[0_0_35px_rgba(90,160,255,0.5)] md:text-5xl">
+            <h1 className="text-3xl font-extrabold leading-tight text-white drop-shadow-[0_0_35px_rgba(90,160,255,0.5)] sm:text-4xl md:text-5xl">
               Agenda sincronizada de eventos, lives e missões temáticas
             </h1>
             <p className="max-w-3xl text-lg text-zinc-200">
@@ -46,19 +47,12 @@ export default function EventosPage() {
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/tech"
+              href="/comunidade"
               className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/80 transition hover:border-blue-300 hover:text-white"
             >
-              configurar overlay
+              ver comunidade
             </Link>
-            <a
-              href="https://discord.gg/animeverse"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-black shadow-[0_0_25px_rgba(80,180,255,0.45)] transition hover:brightness-110"
-            >
-              reservar sala
-            </a>
+            <ComingSoon>Reservar sala</ComingSoon>
           </div>
         </header>
 

@@ -91,23 +91,6 @@ export const EVENT_SCHEDULE = [
   },
 ];
 
-export const TECH_STACKS = [
-  {
-    title: "Setup para watch party",
-    description:
-      "Checklist simples para áudio, tela compartilhada, legendas e chat sem travar a sessão.",
-  },
-  {
-    title: "Bot de agenda",
-    description:
-      "Automação para avisos no Discord, lembretes de episódios e organização por canal.",
-  },
-  {
-    title: "Base de referências",
-    description:
-      "Planilha versionada com arcos, episódios, filmes, mangás e links úteis para pesquisa.",
-  },
-];
 
 export const HALL_OF_FAME = [
   {
@@ -142,12 +125,6 @@ export const GUILD_ROOMS = [
     focus: "Props, moldes, pintura e tecidos",
     vibe: "Troca de referência e progresso real.",
     channel: "#cosplay",
-  },
-  {
-    name: "Tech",
-    focus: "Bots, listas e automações leves",
-    vibe: "Ferramentas úteis para organizar a comunidade.",
-    channel: "#tech",
   },
   {
     name: "Watch parties",

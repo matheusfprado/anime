@@ -8,27 +8,14 @@ type Props = {
 };
 
 export function AnimeCard({ anime }: Props) {
-  const detailParams = new URLSearchParams({
-    title: anime.title,
-    synopsis: anime.synopsis.slice(0, 320),
-    poster: anime.poster,
-    banner: anime.banner,
-    genres: anime.genres.join(","),
-    status: anime.status ?? "",
-    year: anime.year ? String(anime.year) : "",
-    score: anime.score ? String(anime.score) : "",
-  });
-
   return (
     <div
       key={anime.id}
-      className="grid h-[380px] gap-4 rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur-md md:grid-cols-[1fr_0.8fr]"
+      className="grid gap-4 rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur-md md:min-h-[380px] md:grid-cols-[1fr_0.8fr]"
     >
       <div className="flex flex-col justify-center">
-        <h1 className="text-5xl font-extrabold text-yellow-300 drop-shadow-[0_0_20px_rgba(255,200,0,0.4)] md:text-6xl">
-          {anime.title.length > 20
-            ? anime.title.substring(0, 20) + "..."
-            : anime.title}
+        <h1 className="text-4xl font-extrabold text-yellow-300 drop-shadow-[0_0_20px_rgba(255,200,0,0.4)] md:text-6xl">
+          {anime.title}
         </h1>
         <div className="mt-3 flex items-center gap-3">
           <Stars />
@@ -36,7 +23,7 @@ export function AnimeCard({ anime }: Props) {
             {anime.score ? anime.score.toFixed(1) : "N/D"}
           </span>
         </div>
-        <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-200 truncate">
+        <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-200 line-clamp-3">
           {anime.synopsis}
         </p>
 
@@ -57,8 +44,8 @@ export function AnimeCard({ anime }: Props) {
 
         <div className="mt-5">
           <Link
-            href={`/animes/${anime.id}?${detailParams.toString()}`}
-            className="inline-flex h-10 items-center rounded-xl bg-gradient-to-b from-yellow-300 to-orange-500 px-5 text-sm font-semibold text-black shadow-[0_12px_30px_rgba(255,160,0,0.35)] transition-transform hover:scale-105 hover:brightness-110"
+            href={`/animes/${anime.id}`}
+            className="inline-flex min-h-11 items-center rounded-xl bg-gradient-to-b from-yellow-300 to-orange-500 px-5 text-sm font-semibold text-black shadow-[0_12px_30px_rgba(255,160,0,0.35)] transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-200"
           >
             Ver
           </Link>
@@ -67,9 +54,9 @@ export function AnimeCard({ anime }: Props) {
 
       <div
         key={anime.poster}
-        className="relative flex items-center justify-center overflow-hidden rounded-2xl"
+        className="order-first relative h-[150px] overflow-hidden rounded-2xl bg-black/60 sm:h-[220px] md:order-none md:h-auto md:min-h-0"
       >
-        <PosterFallback title={anime.title} />
+        <PosterFallback title={anime.title} src={anime.poster} />
       </div>
     </div>
   );

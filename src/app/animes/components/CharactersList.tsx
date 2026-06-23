@@ -38,13 +38,13 @@ export function CharactersList({ characters }: Props) {
         Personagens Principais
       </h2>
 
-      {characters.length === 0 ? (
+      {characters.filter((character) => character.image).length === 0 ? (
         <p className="text-sm text-zinc-400">
           Não encontramos personagens para exibir agora.
         </p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {characters.map((character) => (
+          {characters.filter((character) => character.image).map((character) => (
             <button
               key={character.id}
               onClick={() => setSelected(character)}

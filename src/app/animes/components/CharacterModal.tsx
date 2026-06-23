@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { AnimeCharacter } from "@/types/anime";
 
 type CharacterModalProps = {
@@ -9,6 +10,17 @@ type CharacterModalProps = {
 };
 
 export function CharacterModal({ character, onClose }: CharacterModalProps) {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    closeButtonRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [onClose]);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
@@ -17,17 +29,23 @@ export function CharacterModal({ character, onClose }: CharacterModalProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/90 to-black/95 backdrop-blur-[6px]" />
 
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="character-modal-title"
         className="relative z-10 w-[92%] max-w-3xl rounded-3xl border border-yellow-500/25 bg-gradient-to-b from-zinc-900/85 to-black/88 p-8 text-left shadow-[0_0_60px_rgba(255,200,0,0.28)] backdrop-blur-xl"
         onClick={(event) => event.stopPropagation()}
       >
         <button
+          ref={closeButtonRef}
+          type="button"
           onClick={onClose}
-          className="absolute right-5 top-5 text-2xl text-zinc-400 transition hover:text-yellow-400"
+          aria-label="Fechar detalhes do personagem"
+          className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center text-2xl text-zinc-400 transition hover:text-yellow-400"
         >
           ✕
         </button>
 
-        <div className="absolute inset-0 bg-gradient-radial from-yellow-400/12 to-transparent blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-radial from-yellow-400/12 to-transparent blur-3xl" />
 
         <div className="relative flex flex-col items-center gap-8 md:flex-row md:items-start">
           <div
@@ -44,7 +62,7 @@ export function CharacterModal({ character, onClose }: CharacterModalProps) {
 
           <div className="flex-1 space-y-4">
             <div>
-              <h3 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_14px_rgba(255,200,0,0.45)]">
+              <h3 id="character-modal-title" className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_14px_rgba(255,200,0,0.45)]">
                 {character.name}
               </h3>
               <p className="mt-2 text-sm text-zinc-300">

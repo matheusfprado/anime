@@ -54,7 +54,7 @@ export function MangaList({ items }: MangaListProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-orange-400/50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-orange-100 transition hover:border-orange-300 hover:text-orange-50"
               >
-                Baixar / Ler
+                Ler na MangaDex
                 <span aria-hidden>↗</span>
               </a>
             </div>

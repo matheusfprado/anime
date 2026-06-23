@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { ComingSoon } from "../components/ComingSoon";
 import { ANIME_CUSTOM_DATA } from "@/app/data/animeCustomData";
 import { LORE_SPOTLIGHTS } from "@/app/data/hubContent";
 
@@ -39,21 +40,21 @@ export default function LorePage() {
   const trivia = active?.trivia ?? [];
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+    <main className="relative min-h-dvh overflow-x-hidden bg-black text-white">
       <div className="absolute inset-0 -z-40 bg-gradient-to-br from-[#15050c] via-[#2a0d2f] to-[#05010a] opacity-95" />
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_top,_rgba(255,160,0,0.25),transparent_55%)]" />
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_bottom,_rgba(110,70,255,0.25),transparent_60%)]" />
 
       <section
        
-        className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-24 pt-28"
+        className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-16 pt-10 sm:gap-12 sm:px-6 sm:pb-24 sm:pt-14"
       >
         <header className="space-y-6">
           <p className="inline-flex items-center gap-2 rounded-full border border-yellow-300/40 bg-yellow-200/10 px-4 py-1 text-[11px] uppercase tracking-[0.4em] text-yellow-200">
             lore nexus
           </p>
           <div className="space-y-4">
-            <h1 className="text-4xl font-extrabold text-white drop-shadow-[0_0_35px_rgba(255,200,0,0.45)] md:text-5xl">
+            <h1 className="text-3xl font-extrabold leading-tight text-white drop-shadow-[0_0_35px_rgba(255,200,0,0.45)] sm:text-4xl md:text-5xl">
               O laboratório definitivo de teorias geek
             </h1>
             <p className="max-w-3xl text-lg text-zinc-200">
@@ -69,14 +70,7 @@ export default function LorePage() {
             >
               ver catálogo
             </Link>
-            <a
-              href="https://discord.gg/animeverse"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-black shadow-[0_0_25px_rgba(255,180,0,0.4)] transition hover:brightness-110"
-            >
-              abrir sala lore nexus
-            </a>
+            <ComingSoon>Abrir sala Lore</ComingSoon>
           </div>
         </header>
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ComingSoon } from "../components/ComingSoon";
 import {
   COMMUNITY_TRACKS,
   GUILD_ROOMS,
@@ -8,21 +9,21 @@ import {
 
 export default function ComunidadePage() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+    <main className="relative min-h-dvh overflow-x-hidden bg-black text-white">
       <div className="absolute inset-0 -z-40 bg-gradient-to-br from-[#0c0421] via-[#22083e] to-[#05010a]" />
       <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_top,_rgba(140,90,255,0.3),transparent_55%)]" />
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_bottom,_rgba(255,120,200,0.22),transparent_60%)]" />
 
       <section
        
-        className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-24 pt-28"
+        className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-16 pt-10 sm:gap-12 sm:px-6 sm:pb-24 sm:pt-14"
       >
         <header className="space-y-6">
           <span className="inline-flex items-center gap-2 rounded-full border border-purple-300/40 bg-purple-500/10 px-4 py-1 text-[11px] uppercase tracking-[0.4em] text-purple-200">
             guild core
           </span>
           <div className="space-y-4">
-            <h1 className="text-4xl font-extrabold text-white drop-shadow-[0_0_35px_rgba(150,110,255,0.5)] md:text-5xl">
+            <h1 className="text-3xl font-extrabold leading-tight text-white drop-shadow-[0_0_35px_rgba(150,110,255,0.5)] sm:text-4xl md:text-5xl">
               Forje alianças, suba de patente e desbloqueie poderes geeks
             </h1>
             <p className="max-w-3xl text-lg text-zinc-200">
@@ -33,14 +34,7 @@ export default function ComunidadePage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <a
-              href="https://discord.gg/animeverse"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-black shadow-[0_0_25px_rgba(120,90,255,0.45)] transition hover:brightness-110"
-            >
-              entrar na guilda prime
-            </a>
+            <ComingSoon>Entrar na comunidade</ComingSoon>
             <Link
               href="/eventos"
               className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/80 transition hover:border-purple-300 hover:text-white"
@@ -49,6 +43,13 @@ export default function ComunidadePage() {
             </Link>
           </div>
         </header>
+
+        <section className="rounded-3xl border border-cyan-300/25 bg-cyan-300/5 p-5 sm:p-6">
+          <h2 className="text-xl font-semibold text-cyan-100">Como funciona a comunidade</h2>
+          <p className="community-copy mt-3 max-w-3xl text-base leading-relaxed text-zinc-200">
+            Escolha um assunto, encontre pessoas com os mesmos interesses e participe no seu ritmo. Você pode começar vendo recomendações, entrar em uma conversa sobre um anime ou acompanhar os próximos eventos.
+          </p>
+        </section>
 
         <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="space-y-5 rounded-3xl border border-white/10 bg-black/35 p-6">
@@ -79,7 +80,8 @@ export default function ComunidadePage() {
             <h2 className="text-lg font-semibold uppercase tracking-[0.35em] text-white">
               Hall da fama semanal
             </h2>
-            <table className="w-full table-auto border-separate border-spacing-y-3">
+            <div className="overflow-x-auto pb-2">
+            <table className="min-w-[620px] w-full table-auto border-separate border-spacing-y-3">
               <thead>
                 <tr className="text-left text-xs uppercase tracking-[0.35em] text-purple-200">
                   <th className="px-3">codinome</th>
@@ -106,6 +108,7 @@ export default function ComunidadePage() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </section>
 

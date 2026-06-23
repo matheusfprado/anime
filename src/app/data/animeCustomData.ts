@@ -15,11 +15,6 @@ export type AnimeCollectible = {
   link?: string;
 };
 
-export type AnimeTechHighlight = {
-  name: string;
-  description: string;
-};
-
 export type AnimeCommunityHook = {
   title: string;
   description: string;
@@ -34,8 +29,7 @@ export type AnimeCustomization = {
   synopsis?: string;
   loreTimeline?: AnimeLoreNode[];
   crossMedia?: AnimeCrossMedia[];
-  collectibles?: AnimeCollectible[];
-  techHighlights?: AnimeTechHighlight[];
+  collectibles?: AnimeCollectible[];
   trivia?: string[];
   communityHooks?: AnimeCommunityHook[];
 };
@@ -98,19 +92,7 @@ export const ANIME_CUSTOM_DATA: AnimeCustomization[] = [
         name: "Figura AR do Naruto (Hokage)",
         description: "Arquivo .glb para visualização imersiva em realidade aumentada.",
       },
-    ],
-    techHighlights: [
-      {
-        name: "Datacard Ninja",
-        description:
-          "Planilha pronta do AnimeVerse com builds recomendadas para campanhas de mesa baseadas em chakra.",
-      },
-      {
-        name: "Modpack Shinobi VR",
-        description:
-          "Pacote com 18 cenários otimizados para VRChat e Neos VR inspirados nos campos de treino de Konoha.",
-      },
-    ],
+    ],
     trivia: [
       "O episódio piloto de Naruto foi exibido inicialmente no Jump Festa 2002 com trilha alternativa.",
       "Masashi Kishimoto armazenava rascunhos de novos jutsus em copos de ramen — a equipe digitalizou 40 desses sketches e liberou em 2023.",
@@ -183,17 +165,7 @@ export const ANIME_CUSTOM_DATA: AnimeCustomization[] = [
         name: "Wanted Posters customizados",
         description: "Template PSD para criar cartazes da sua guilda com tipografia canon.",
       },
-    ],
-    techHighlights: [
-      {
-        name: "Banco de dados das Akuma no Mi",
-        description: "CSV com parâmetros de poder e fraquezas, pronto para ingestão em dashboards.",
-      },
-      {
-        name: "Bot Sunny Route",
-        description: "Automação no Discord que agenda viagens roleplay e envia cartas náuticas diárias.",
-      },
-    ],
+    ],
     trivia: [
       "O número de capítulos planejado por Oda para o arco final foi reajustado três vezes em 2023.",
       "A música 'Binks' Sake' usa progressão harmônica baseada em cantigas marítimas irlandesas do século XVII.",
@@ -265,17 +237,7 @@ export const ANIME_CUSTOM_DATA: AnimeCustomization[] = [
         name: "Patch da Divisão de Reconhecimento",
         description: "Arquivo vetorial e bordado oficial para jaquetas bomber.",
       },
-    ],
-    techHighlights: [
-      {
-        name: "Simulador de manobra ODM",
-        description: "Mapa custom no Blade & Sorcery para praticar física do equipamento tridimensional.",
-      },
-      {
-        name: "Kit Founding Theory",
-        description: "Coleção de prompts para GPTs customizados que simulam memórias dos Eldianos.",
-      },
-    ],
+    ],
     trivia: [
       "Hajime Isayama desenhou a muralha com base em uma maquete de madeira criada por fãs para o Comiket 2011.",
       "A cena do túnel em Marley foi renderizada com técnica de rotoscopia para preservar o grão do mangá.",
@@ -347,17 +309,7 @@ export const ANIME_CUSTOM_DATA: AnimeCustomization[] = [
         name: "Kit de chá do Urokodaki",
         description: "Receita aromática compartilhada nos encontros presenciais AnimeVerse.",
       },
-    ],
-    techHighlights: [
-      {
-        name: "Pack de shaders Respiração",
-        description: "Preset para After Effects que recria as ondas do estilo Água e Chamas.",
-      },
-      {
-        name: "Treinador de Ritmo Nichirin",
-        description: "App comunitário que sincroniza respirações e treinos HIIT baseado na trilha sonora.",
-      },
-    ],
+    ],
     trivia: [
       "O padrão do haori de Tanjiro é baseado em um ornamento de lã Ainu preservado no museu Sapporo.",
       "O efeito flamejante da Hinokami Kagura usa mix de pintura digital e partículas físicas capturadas em slow motion.",

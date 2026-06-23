@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { AnimeCategory, AnimeSummary } from "@/types/anime";
 import { ANIME_CUSTOM_DATA } from "@/app/data/animeCustomData";
@@ -58,7 +59,7 @@ export default function AnimesDashboard({ categories }: Props) {
     );
   }
 
-  const highlightImage = customization?.characterImage ?? heroAnime.poster;
+  const highlightImage = heroAnime.poster;
   const synopsis = customization?.synopsis ?? heroAnime.synopsis ?? "";
 
   const heroDisplay: AnimeSummary = {
@@ -68,7 +69,7 @@ export default function AnimesDashboard({ categories }: Props) {
   };
 
   return (
-    <main className="relative min-h-screen select-none overflow-x-hidden overflow-y-auto text-white">
+    <main className="relative min-h-dvh overflow-x-hidden overflow-y-auto text-white">
       <div className="fixed inset-0 -z-50">
         <div
           key={heroAnime.id}
@@ -76,7 +77,7 @@ export default function AnimesDashboard({ categories }: Props) {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/90" />
       </div>
-      <header className="mx-auto mt-6 w-full max-w-6xl px-6 flex items-center justify-between">
+      <header className="mx-auto mt-4 flex w-full max-w-6xl items-center justify-between px-4 sm:mt-6 sm:px-6">
         <Link
           href="/"
           className="flex items-center gap-2 rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm font-medium text-yellow-400 hover:bg-white/10 transition"
@@ -84,16 +85,20 @@ export default function AnimesDashboard({ categories }: Props) {
           <ArrowLeft size={16} />
           Voltar
         </Link>
-        <div className="rounded-2xl border border-white/10 bg-black/30 px-5 py-3 backdrop-blur-md">
-          <span className="font-black tracking-wide text-lg text-yellow-400 drop-shadow-[0_0_8px_rgba(255,200,0,0.4)]">
-            Anime <span className="text-zinc-200">Verse</span>
-          </span>
+        <div className="rounded-2xl border border-cyan-300/20 bg-black/30 p-1.5 backdrop-blur-md">
+          <Image
+            src="/animeverse-logo.png"
+            alt="AnimeVerse"
+            width={48}
+            height={48}
+            className="h-12 w-12 rounded-xl object-cover"
+          />
         </div>
       </header>
-      <section className="mx-auto max-w-5xl px-6 py-10">
+      <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
         <AnimeCard anime={heroDisplay} />
       </section>
-      <section className="relative z-10 mx-auto max-w-6xl px-6 pb-20">
+      <section className="relative z-10 mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
         <CategoryTabs
           categories={categories}
           activeCategory={currentCategory?.name ?? activeCategory}

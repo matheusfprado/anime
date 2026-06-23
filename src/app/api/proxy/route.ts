@@ -8,6 +8,7 @@ const ALLOWED_HOSTS = new Set([
   "uploads.mangadex.org",
   "images5.alphacoders.com",
 ]);
+const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024;
 
 export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get('url');
@@ -26,22 +27,29 @@ export async function GET(req: NextRequest) {
 
   const upstream = await fetch(target, {
     headers: { 'User-Agent': 'Mozilla/5.0', Accept: '*/*' },
-    redirect: 'follow',
+    redirect: 'error',
     next: { revalidate: 60 * 60 },
   });
 
   if (!upstream.ok)
     return new NextResponse(`Upstream error: ${upstream.status}`, { status: 502 });
 
+  const type = upstream.headers.get('content-type') ?? '';
+  const length = Number(upstream.headers.get('content-length') ?? 0);
+  if (!type.startsWith('image/') || length > MAX_IMAGE_SIZE_BYTES) {
+    return new NextResponse('Unsupported upstream response', { status: 415 });
+  }
+
   const buf = await upstream.arrayBuffer();
-  const type = upstream.headers.get('content-type') ?? 'application/octet-stream';
+  if (buf.byteLength > MAX_IMAGE_SIZE_BYTES) {
+    return new NextResponse('Upstream response too large', { status: 413 });
+  }
 
   return new NextResponse(buf, {
     status: 200,
     headers: {
       'content-type': type,
       'cache-control': 'public, max-age=3600',
-      'access-control-allow-origin': '*',
     },
   });
 }
