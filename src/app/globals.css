@@ -180,6 +180,10 @@
     font-family: Inter, "Noto Sans", "Segoe UI", sans-serif;
     letter-spacing: normal;
   }
+
+  .mobile-bottom-nav {
+    display: none;
+  }
 }
 
 @keyframes sakura-drift {
@@ -209,8 +213,49 @@ main button[class*="rounded"] {
 }
 
 @media (max-width: 640px) {
+  body {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    background: #fffaf8;
+  }
+
+  body > header {
+    padding-top: env(safe-area-inset-top);
+    border-bottom-color: rgb(232 217 220 / 72%);
+    box-shadow: 0 1px 14px rgb(58 30 38 / 5%);
+  }
+
   main {
     min-width: 0;
+  }
+
+  .editorial-page {
+    min-height: calc(100dvh - 3.5rem);
+    background:
+      radial-gradient(circle at 100% 0%, rgb(244 166 184 / 14%), transparent 17rem),
+      #fffaf8;
+  }
+
+  .editorial-container {
+    width: calc(100% - 1rem);
+  }
+
+  .editorial-container[class*="py-"] {
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  main h1 {
+    font-size: clamp(2rem, 10vw, 2.75rem) !important;
+    line-height: 1.02 !important;
+  }
+
+  .editorial-page [class*="rounded-"][class*="border"] {
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 24px rgb(58 30 38 / 6%);
+  }
+
+  .manga-rule {
+    margin-block: 2rem !important;
   }
 
   main [class*="tracking-\["] {
@@ -227,6 +272,56 @@ main button[class*="rounded"] {
 
   .sakura-petal:nth-child(even) {
     display: none;
+  }
+
+  .mobile-bottom-nav {
+    position: fixed;
+    z-index: 100;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    min-height: 4rem;
+    padding: 0.25rem 0.25rem calc(0.25rem + env(safe-area-inset-bottom));
+    border: 1px solid rgb(232 217 220 / 90%);
+    border-radius: 1.25rem;
+    background: rgb(255 255 255 / 94%);
+    box-shadow: 0 12px 35px rgb(58 30 38 / 16%);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-bottom-nav__item {
+    display: flex;
+    min-width: 0;
+    min-height: 3.5rem;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.15rem;
+    border-radius: 1rem;
+    color: #74676b;
+    font-size: 0.62rem;
+    font-weight: 600;
+    line-height: 1;
+    touch-action: manipulation;
+    transition: color 180ms ease, background-color 180ms ease, transform 120ms ease;
+  }
+
+  .mobile-bottom-nav__item:active {
+    transform: scale(0.96);
+  }
+
+  .mobile-bottom-nav__item[data-active="true"] {
+    color: #bd405f;
+    background: #fcebef;
+  }
+
+  .mobile-bottom-nav__icon {
+    display: grid;
+    width: 2rem;
+    height: 1.65rem;
+    place-items: center;
   }
 }
 

@@ -5,6 +5,7 @@ import { BookOpenText, CalendarDays, Library, Menu, Sparkles, Users } from "luci
 
 import { Button } from "@/components/ui/button"
 import { getSiteUrl, serializeJsonLd } from "@/lib/seo"
+import { MobileBottomNav } from "@/app/components/MobileBottomNav"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -71,7 +72,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-screen bg-background text-foreground antialiased">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
         <header className="sticky top-0 z-50 border-b border-border/80 bg-[#fffaf8]/95 backdrop-blur-lg">
-          <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:h-16 sm:px-6 lg:px-8">
             <Link href="/" className="flex min-h-11 items-center gap-3" aria-label="AnimeVerse — início">
               <Image
                 src="/animeverse-logo-v2.png"
@@ -79,7 +80,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 width={40}
                 height={40}
                 priority
-                className="h-10 w-10 rounded-full object-cover ring-1 ring-sakura-200"
+                className="h-9 w-9 rounded-full object-cover ring-1 ring-sakura-200 sm:h-10 sm:w-10"
               />
               <span className="font-title text-xl font-bold tracking-tight text-ink">
                 Anime<span className="text-primary">Verse</span>
@@ -102,7 +103,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </Button>
             </div>
 
-            <details className="relative lg:hidden">
+            <details className="relative hidden sm:block lg:hidden">
               <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-xl border border-border bg-white text-ink [&::-webkit-details-marker]:hidden">
                 <Menu size={20} aria-hidden="true" />
                 <span className="sr-only">Abrir navegação</span>
@@ -119,6 +120,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </div>
         </header>
         {children}
+        <MobileBottomNav />
       </body>
     </html>
   )
