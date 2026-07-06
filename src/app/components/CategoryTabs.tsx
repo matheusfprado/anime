@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { AnimeCategory, AnimeSummary } from "@/types/anime";
 import { PosterFallback } from "./PosterFallback";
+import { Input } from "@/components/ui/input";
 
 type Props = {
   categories: AnimeCategory[];
@@ -46,7 +47,7 @@ export function CategoryTabs({
 
   return (
     <div>
-      <div className="mb-6 space-y-4 rounded-2xl border border-white/10 bg-black/30 p-4 backdrop-blur">
+      <div className="mb-6 space-y-4 rounded-2xl border border-border bg-white p-4 shadow-sm">
           <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:gap-3">
           {categories.map((category) => (
             <button
@@ -57,8 +58,8 @@ export function CategoryTabs({
               }}
               className={`shrink-0 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-all sm:px-5 sm:tracking-[0.2em] ${
                 current.name === category.name
-                  ? "border-yellow-300/70 bg-yellow-200/20 text-yellow-400"
-                  : "border-white/15 bg-white/5 text-white/70 hover:text-yellow-200"
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-background text-muted-foreground hover:border-sakura-300 hover:text-foreground"
               }`}
             >
               {category.name}
@@ -67,18 +68,18 @@ export function CategoryTabs({
         </div>
         <label className="block">
           <span className="sr-only">Buscar anime</span>
-          <input
+          <Input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Buscar por título, gênero, ano ou status"
-            className="h-12 w-full rounded-xl border border-white/10 bg-black/40 px-4 text-base text-white outline-none transition placeholder:text-zinc-500 focus:border-yellow-300/60 sm:text-sm"
+            className="h-12"
           />
         </label>
       </div>
 
       <div className="relative">
         {visibleAnimes.length === 0 ? (
-          <p className="rounded-2xl border border-white/10 bg-black/30 p-5 text-sm text-zinc-300">
+          <p className="rounded-2xl border border-border bg-white p-5 text-sm text-muted-foreground">
             Nenhum anime encontrado nessa categoria.
           </p>
         ) : (
@@ -91,16 +92,16 @@ export function CategoryTabs({
                 key={`${current.name}-${anime.id}`}
                 onClick={() => onSelect(anime)}
                 aria-pressed={isSelected}
-                className={`cursor-pointer rounded-2xl border bg-black/40 p-2 text-left transition duration-200 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-200 ${
+                className={`cursor-pointer rounded-2xl border bg-white p-2 text-left transition duration-200 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
                     isSelected
-                      ? "border-yellow-300/80 scale-105"
-                      : "border-white/15 hover:border-yellow-300/50"
+                      ? "scale-[1.02] border-primary shadow-md"
+                      : "border-border hover:border-sakura-300"
                   }`}
                 >
-                  <div className="relative h-[140px] w-full overflow-hidden rounded-xl bg-black/60">
+                  <div className="relative h-[140px] w-full overflow-hidden rounded-xl bg-muted">
                     <PosterFallback title={anime.title} src={anime.poster} compact />
                   </div>
-                  <figcaption className="mt-2 w-full truncate text-center text-xs uppercase tracking-[0.25em] text-white/80">
+                  <figcaption className="mt-2 w-full truncate text-center text-xs font-semibold text-foreground">
                     {anime.title}
                   </figcaption>
               </button>

@@ -1,92 +1,21 @@
-"use client";
+"use client"
 
-import Image from "next/image";
-import { useEffect, useRef } from "react";
-import { AnimeCharacter } from "@/types/anime";
+import Image from "next/image"
+import { useEffect, useRef } from "react"
+import { X } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import type { AnimeCharacter } from "@/types/anime"
 
-type CharacterModalProps = {
-  character: AnimeCharacter;
-  onClose: () => void;
-};
-
-export function CharacterModal({ character, onClose }: CharacterModalProps) {
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    closeButtonRef.current?.focus();
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [onClose]);
-
+export function CharacterModal({ character, onClose }: { character: AnimeCharacter; onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null)
+  useEffect(() => { closeRef.current?.focus(); const close = (event: KeyboardEvent) => event.key === "Escape" && onClose(); window.addEventListener("keydown", close); return () => window.removeEventListener("keydown", close) }, [onClose])
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      onClick={onClose}
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/90 to-black/95 backdrop-blur-[6px]" />
-
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="character-modal-title"
-        className="relative z-10 w-[92%] max-w-3xl rounded-3xl border border-yellow-500/25 bg-gradient-to-b from-zinc-900/85 to-black/88 p-8 text-left shadow-[0_0_60px_rgba(255,200,0,0.28)] backdrop-blur-xl"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <button
-          ref={closeButtonRef}
-          type="button"
-          onClick={onClose}
-          aria-label="Fechar detalhes do personagem"
-          className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center text-2xl text-zinc-400 transition hover:text-yellow-400"
-        >
-          ✕
-        </button>
-
-        <div className="pointer-events-none absolute inset-0 bg-gradient-radial from-yellow-400/12 to-transparent blur-3xl" />
-
-        <div className="relative flex flex-col items-center gap-8 md:flex-row md:items-start">
-          <div
-            className="relative h-56 w-56 overflow-hidden rounded-full border border-yellow-400/30 shadow-[0_0_50px_rgba(255,200,0,0.35)]"
-          >
-            <Image
-              fill
-              src={character.image}
-              alt={character.name}
-              className="object-cover"
-              sizes="224px"
-            />
-          </div>
-
-          <div className="flex-1 space-y-4">
-            <div>
-              <h3 id="character-modal-title" className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_14px_rgba(255,200,0,0.45)]">
-                {character.name}
-              </h3>
-              <p className="mt-2 text-sm text-zinc-300">
-                {character.role
-                  ? `Papel na obra: ${character.role}`
-                  : "Papel não informado pela fonte."}
-              </p>
-            </div>
-
-            {character.about ? (
-              <div className="max-h-[320px] overflow-y-auto rounded-2xl border border-white/10 bg-black/35 p-5 text-sm leading-relaxed text-zinc-100">
-                {character.about}
-              </div>
-            ) : (
-              <p className="rounded-2xl border border-white/10 bg-black/30 p-5 text-sm text-zinc-200">
-                Não encontramos uma biografia completa para este personagem no
-                momento.
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400/50 to-transparent" />
-      </div>
+    <div className="fixed inset-0 z-50 grid place-items-center bg-ink/60 p-4 backdrop-blur-sm" onClick={onClose}>
+      <article role="dialog" aria-modal="true" aria-labelledby="character-title" className="relative grid w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl sm:grid-cols-[240px_1fr]" onClick={(event) => event.stopPropagation()}>
+        <Button ref={closeRef} variant="ghost" size="icon" onClick={onClose} aria-label="Fechar" className="absolute right-3 top-3 z-10 bg-white/90"><X /></Button>
+        <div className="relative min-h-72"><Image src={character.image} alt={character.name} fill className="object-cover" sizes="240px" /></div>
+        <div className="p-6 sm:p-8"><p className="editorial-kicker">Personagem</p><h2 id="character-title" className="mt-3 font-title text-3xl font-bold">{character.name}</h2><p className="mt-2 text-sm text-primary">{character.role}</p><p className="mt-6 text-sm leading-7 text-muted-foreground">{character.about || "Não há uma biografia disponível para este personagem."}</p></div>
+      </article>
     </div>
-  );
+  )
 }

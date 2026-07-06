@@ -1,169 +1,120 @@
-"use client";
+"use client"
 
-import { useMemo, useState } from "react";
-import Link from "next/link";
-import { ComingSoon } from "../components/ComingSoon";
-import { COLLECTIBLE_DROPS } from "@/app/data/hubContent";
-import { ANIME_CUSTOM_DATA } from "@/app/data/animeCustomData";
+import { FormEvent, useMemo, useState } from "react"
+import Image from "next/image"
+import { Download, ImageIcon, LoaderCircle, Sparkles } from "lucide-react"
 
-type TabKey = "hub" | "animes";
+import { Button } from "@/components/ui/button"
+
+type GeneratedImage = { image: string }
+
+const suggestions = [
+  "Naruto em modelo toy art colecionável",
+  "Guerreira cyberpunk com katana rosa",
+  "Samurai gato com armadura tradicional",
+]
 
 export default function ColecionaveisPage() {
-  const [activeTab, setActiveTab] = useState<TabKey>("hub");
+  const [description, setDescription] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [result, setResult] = useState<GeneratedImage | null>(null)
 
-  const animeCollectibles = useMemo(() => {
-    return ANIME_CUSTOM_DATA.flatMap((anime) =>
-      (anime.collectibles ?? []).map((item) => ({
-        ...item,
-        origin: anime.title,
-      }))
-    );
-  }, []);
+  const canSubmit = description.trim().length >= 3 && !isLoading
+  const fileName = useMemo(() => {
+    const slug = description.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 42)
+    return `${slug || "colecionavel-3d"}.png`
+  }, [description])
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!canSubmit) return
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch("/api/modelagem", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description }),
+      })
+      const payload = (await response.json()) as GeneratedImage & { error?: string }
+      if (!response.ok) throw new Error(payload.error || "Não foi possível gerar a imagem.")
+      setResult(payload)
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Erro inesperado.")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  function downloadImage() {
+    if (!result) return
+    const anchor = document.createElement("a")
+    anchor.href = result.image
+    anchor.download = fileName
+    anchor.click()
+  }
 
   return (
-    <main className="relative min-h-dvh overflow-x-hidden bg-black text-white">
-      <div className="absolute inset-0 -z-40 bg-gradient-to-br from-[#1b0508] via-[#3a0c1f] to-[#050208]" />
-      <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_top,_rgba(255,120,0,0.25),transparent_55%)]" />
-      <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_bottom,_rgba(255,0,90,0.2),transparent_60%)]" />
-
-      <section
-       
-        className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-16 pt-10 sm:gap-12 sm:px-6 sm:pb-24 sm:pt-14"
-      >
-        <header className="space-y-6">
-          <span className="inline-flex items-center gap-2 rounded-full border border-orange-300/40 bg-orange-500/10 px-4 py-1 text-[11px] uppercase tracking-[0.4em] text-orange-200">
-            vault geek
-          </span>
-          <div className="space-y-4">
-            <h1 className="text-3xl font-extrabold leading-tight text-white drop-shadow-[0_0_35px_rgba(255,120,0,0.45)] sm:text-4xl md:text-5xl">
-              Colecionáveis físicos, digitais e AR numa vitrine anime
-            </h1>
-            <p className="max-w-3xl text-lg text-zinc-200">
-              Combine props impressos, hologramas, badges digitais e packs de textura
-              oficiais para construir o setup geek definitivo. Conteúdo curado pela
-              comunidade e pelas guildas especializadas do AnimeVerse.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <ComingSoon>Entrar no Cosplay Labs</ComingSoon>
-            <Link
-              href="/comunidade"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/80 transition hover:border-orange-300 hover:text-white"
-            >
-              ver comunidade
-            </Link>
-          </div>
+    <main className="editorial-page">
+      <div className="editorial-container py-8 sm:py-14">
+        <header className="mx-auto max-w-3xl text-center">
+          <p className="editorial-kicker">Gerador de colecionáveis</p>
+          <h1 className="mt-4 font-title text-4xl font-bold leading-tight sm:text-6xl">Sua ideia em um modelo 3D.</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">Descreva um personagem e receba um render PNG em estilo toy art, pronto para usar como referência visual.</p>
         </header>
 
-        <section className="space-y-6">
-          <div className="flex flex-wrap gap-3 rounded-2xl border border-white/10 bg-black/35 p-3 backdrop-blur">
-            {[
-              { key: "hub" as TabKey, label: "Drops do hub" },
-              { key: "animes" as TabKey, label: "Coleções por anime" },
-            ].map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] transition ${
-                  activeTab === tab.key
-                    ? "border-orange-300/70 bg-orange-500/20 text-orange-100 shadow-[0_0_18px_rgba(255,140,0,0.35)]"
-                    : "border-white/15 bg-white/5 text-white/70 hover:border-orange-300/40"
-                }`}
-              >
-                {tab.label}
+        <form onSubmit={handleSubmit} className="mx-auto mt-8 max-w-3xl" aria-busy={isLoading}>
+          <label htmlFor="character-description" className="mb-2 block text-sm font-semibold">O que você quer criar?</label>
+          <div className="rounded-2xl border border-border bg-white p-2 shadow-[0_18px_50px_rgba(58,30,38,0.08)] focus-within:ring-2 focus-within:ring-ring">
+            <textarea
+              id="character-description"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+              maxLength={1000}
+              rows={3}
+              placeholder="Ex.: Naruto em modelo colecionável 3D, pose confiante e corpo inteiro"
+              className="w-full resize-none bg-transparent px-3 py-3 text-base leading-6 outline-none placeholder:text-muted-foreground"
+            />
+            <div className="flex items-center justify-between gap-3 border-t border-border px-2 pt-2">
+              <span className="hidden text-xs text-muted-foreground sm:block">PNG · 1024 × 1024</span>
+              <Button type="submit" size="lg" disabled={!canSubmit} className="ml-auto min-w-40">
+                {isLoading ? <><LoaderCircle className="animate-spin" /> Gerando...</> : <><Sparkles /> Gerar imagem</>}
+              </Button>
+            </div>
+          </div>
+          {error ? <p role="alert" className="mt-3 text-sm font-medium text-destructive">{error}</p> : null}
+          <div className="mt-4 flex flex-wrap justify-center gap-2" aria-label="Sugestões de descrição">
+            {suggestions.map((suggestion) => (
+              <button key={suggestion} type="button" onClick={() => setDescription(suggestion)} className="min-h-11 rounded-full border border-border bg-white px-4 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-foreground">
+                {suggestion}
               </button>
             ))}
           </div>
+        </form>
 
-          {activeTab === "hub" ? (
-            <div className="grid gap-6 md:grid-cols-3">
-              {COLLECTIBLE_DROPS.map((drop) => (
-                <article
-                  key={drop.name}
-                 
-                  className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-black/30 p-6"
-                >
-                  <div>
-                    <div className="flex items-center justify-between text-xs uppercase tracking-[0.35em] text-orange-200">
-                      <span>{drop.tag}</span>
-                      <span>loot</span>
-                    </div>
-                    <h3 className="mt-4 text-xl font-semibold text-white">
-                      {drop.name}
-                    </h3>
-                    <p className="mt-3 text-sm text-zinc-200">{drop.description}</p>
-                  </div>
-                  <span className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.35em] text-orange-100">
-                    liberar via guilda ↗
-                  </span>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <div className="grid gap-6 md:grid-cols-2">
-              {animeCollectibles.length === 0 ? (
-                <p className="text-sm text-zinc-300">
-                  Nenhum item registrado ainda. Suba suas criações no canal #workshop-dojo
-                  para liberar blueprint e XP.
-                </p>
-              ) : (
-                animeCollectibles.map((item, index) => (
-                  <article
-                    key={`${item.name}-${index}`}
-                   
-                    className="flex h-full flex-col justify-between gap-4 rounded-3xl border border-white/10 bg-black/30 p-6"
-                  >
-                    <div className="space-y-3">
-                      <span className="inline-flex items-center gap-2 rounded-full border border-orange-300/40 bg-orange-500/10 px-3 py-1 text-[10px] uppercase tracking-[0.35em] text-orange-200">
-                        {item.origin}
-                      </span>
-                      <h3 className="text-lg font-semibold text-white drop-shadow-[0_0_16px_rgba(255,140,0,0.35)]">
-                        {item.name}
-                      </h3>
-                      <p className="text-sm text-zinc-200">{item.description}</p>
-                    </div>
-                    {item.link ? (
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-orange-100 underline"
-                      >
-                        acessar blueprint ↗
-                      </a>
-                    ) : (
-                      <span className="text-[11px] uppercase tracking-[0.35em] text-zinc-400">
-                        blueprint comunitária
-                      </span>
-                    )}
-                  </article>
-                ))
-              )}
-            </div>
-          )}
-        </section>
-
-        <section className="rounded-3xl border border-white/10 bg-black/30 p-6">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold text-white">
-                Como participar das drops exclusivas
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm text-zinc-300">
-                Complete missões da Guilda Prime, contribua com arquivos validados pela
-                comunidade Cosplay Labs e destrave badges digitais sincronizadas com
-                wallet e overlay das suas streams.
-              </p>
-            </div>
-            <Link
-              href="/comunidade"
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/80 transition hover:border-orange-300 hover:text-white"
-            >
-              abrir ranking
-            </Link>
+        <section className="mx-auto mt-10 max-w-3xl" aria-live="polite">
+          <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-border bg-white shadow-[0_24px_70px_rgba(58,30,38,0.10)]">
+            {result ? (
+              <>
+                <Image src={result.image} alt={`Modelo 3D gerado: ${description}`} fill unoptimized className="object-contain" />
+                <Button type="button" onClick={downloadImage} className="absolute bottom-4 right-4 shadow-lg" aria-label="Baixar imagem PNG">
+                  <Download /> Baixar PNG
+                </Button>
+              </>
+            ) : isLoading ? (
+              <div className="grid h-full place-items-center p-8 text-center">
+                <div><LoaderCircle className="mx-auto animate-spin text-primary" size={40} /><p className="mt-5 font-title text-xl font-bold">Criando seu colecionável...</p><p className="mt-2 text-sm text-muted-foreground">A geração pode levar alguns segundos.</p></div>
+              </div>
+            ) : (
+              <div className="grid h-full place-items-center p-8 text-center">
+                <div><span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-sakura-100 text-primary"><ImageIcon size={28} /></span><p className="mt-5 font-title text-xl font-bold">Sua imagem aparecerá aqui</p><p className="mt-2 text-sm leading-6 text-muted-foreground">Digite uma descrição acima para começar.</p></div>
+              </div>
+            )}
           </div>
         </section>
-      </section>
+      </div>
     </main>
-  );
+  )
 }

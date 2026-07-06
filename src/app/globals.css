@@ -3,75 +3,191 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 15 100% 99%;
+    --foreground: 342 14% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 342 14% 12%;
+    --primary: 344 62% 61%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 348 38% 95%;
+    --secondary-foreground: 342 14% 18%;
+    --muted: 12 31% 95%;
+    --muted-foreground: 344 6% 43%;
+    --accent: 345 67% 91%;
+    --accent-foreground: 344 53% 35%;
+    --destructive: 353 53% 47%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 348 25% 88%;
+    --input: 348 25% 84%;
+    --ring: 344 62% 61%;
+    --radius: 1rem;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html,
+  body {
+    min-height: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  body {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: Inter, "Noto Sans", "Segoe UI", sans-serif;
+  }
+
   h1,
   h2,
   h3,
   .anime-title {
-    font-family: "Orbitron", "Segoe UI", Arial, sans-serif;
-    letter-spacing: 0;
+    font-family: "Noto Serif JP", "Yu Mincho", Georgia, serif;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: #f8d9e1;
+    color: #241b1e;
+  }
+
+  :focus-visible {
+    outline: 2px solid #d85f7c;
+    outline-offset: 3px;
   }
 }
 
-/* fundo dramático */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(
-      60% 50% at 15% 15%,
-      rgba(103, 232, 249, 0.14),
-      transparent 60%
-    ),
-    radial-gradient(
-      60% 50% at 85% 85%,
-      rgba(139, 92, 246, 0.14),
-      transparent 60%
-    ),
-    radial-gradient(
-      40% 40% at 50% 70%,
-      rgba(56, 189, 248, 0.1),
-      transparent 70%
-    );
-}
-
-.btn-gold {
-  background: linear-gradient(135deg, #67e8f9 0%, #8b5cf6 100%);
-  color: #080b1a;
-  box-shadow: 0 6px 20px rgba(103, 232, 249, 0.25);
-}
-.btn-gold:hover {
-  filter: brightness(1.02);
-}
-.card-glass {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06),
-    rgba(255, 255, 255, 0.02)
-  );
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-@keyframes clouds {
-  from {
-    transform: translateX(0);
+@layer components {
+  .editorial-page {
+    position: relative;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    background:
+      radial-gradient(circle at 92% 5%, rgb(244 166 184 / 16%), transparent 24rem),
+      linear-gradient(rgb(232 217 220 / 18%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(232 217 220 / 18%) 1px, transparent 1px),
+      #fffaf8;
+    background-size: auto, 4rem 4rem, 4rem 4rem, auto;
+    color: #241b1e;
   }
-  to {
-    transform: translateX(-33.333%);
+
+  .editorial-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: radial-gradient(#241b1e 0.55px, transparent 0.55px);
+    background-size: 5px 5px;
+  }
+
+  .editorial-page::after {
+    content: "日本の物語";
+    position: fixed;
+    z-index: 0;
+    right: 1rem;
+    top: 7rem;
+    color: rgb(189 64 95 / 32%);
+    font-family: "Noto Serif JP", "Yu Mincho", serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    pointer-events: none;
+    writing-mode: vertical-rl;
+  }
+
+  .editorial-container {
+    position: relative;
+    z-index: 1;
+    width: min(100% - 2rem, 80rem);
+    margin-inline: auto;
+  }
+
+  .editorial-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #bd405f;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .editorial-kicker::before {
+    content: "";
+    width: 2rem;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .editorial-panel {
+    border: 1px solid #e8d9dc;
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 88%);
+    box-shadow: 0 18px 50px rgb(58 30 38 / 7%);
+  }
+
+  .editorial-page [class*="rounded-"][class*="border"] {
+    box-shadow: 0 12px 35px rgb(58 30 38 / 5%);
+  }
+
+  .sakura-fall {
+    position: fixed;
+    z-index: 3;
+    inset: 4rem 0 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .sakura-petal {
+    position: absolute;
+    top: -2rem;
+    left: var(--petal-left);
+    width: var(--petal-size);
+    height: calc(var(--petal-size) * 0.72);
+    border-radius: 70% 30% 70% 30%;
+    background: linear-gradient(135deg, #f9dbe3, #e9879f);
+    box-shadow: inset 1px 1px rgb(255 255 255 / 65%);
+    opacity: 0;
+    animation: sakura-drift var(--petal-duration) linear var(--petal-delay) infinite;
+    will-change: transform, opacity;
+  }
+
+  .sakura-petal:nth-child(1) { --petal-left: 3%; --petal-size: 10px; --petal-duration: 12s; --petal-delay: -2s; }
+  .sakura-petal:nth-child(2) { --petal-left: 11%; --petal-size: 14px; --petal-duration: 16s; --petal-delay: -10s; }
+  .sakura-petal:nth-child(3) { --petal-left: 19%; --petal-size: 9px; --petal-duration: 14s; --petal-delay: -5s; }
+  .sakura-petal:nth-child(4) { --petal-left: 28%; --petal-size: 12px; --petal-duration: 18s; --petal-delay: -14s; }
+  .sakura-petal:nth-child(5) { --petal-left: 37%; --petal-size: 8px; --petal-duration: 13s; --petal-delay: -8s; }
+  .sakura-petal:nth-child(6) { --petal-left: 45%; --petal-size: 13px; --petal-duration: 17s; --petal-delay: -3s; }
+  .sakura-petal:nth-child(7) { --petal-left: 53%; --petal-size: 10px; --petal-duration: 15s; --petal-delay: -12s; }
+  .sakura-petal:nth-child(8) { --petal-left: 61%; --petal-size: 15px; --petal-duration: 19s; --petal-delay: -7s; }
+  .sakura-petal:nth-child(9) { --petal-left: 69%; --petal-size: 9px; --petal-duration: 13s; --petal-delay: -1s; }
+  .sakura-petal:nth-child(10) { --petal-left: 76%; --petal-size: 12px; --petal-duration: 17s; --petal-delay: -11s; }
+  .sakura-petal:nth-child(11) { --petal-left: 83%; --petal-size: 8px; --petal-duration: 14s; --petal-delay: -6s; }
+  .sakura-petal:nth-child(12) { --petal-left: 90%; --petal-size: 14px; --petal-duration: 20s; --petal-delay: -15s; }
+  .sakura-petal:nth-child(13) { --petal-left: 96%; --petal-size: 10px; --petal-duration: 16s; --petal-delay: -4s; }
+  .sakura-petal:nth-child(14) { --petal-left: 33%; --petal-size: 7px; --petal-duration: 21s; --petal-delay: -18s; }
+
+  .manga-rule {
+    height: 3px;
+    background: linear-gradient(90deg, #241b1e 0 16%, #d85f7c 16% 24%, #e8d9dc 24% 100%);
+  }
+
+  .community-copy {
+    font-family: Inter, "Noto Sans", "Segoe UI", sans-serif;
+    letter-spacing: normal;
   }
 }
 
-html, body {
-  min-height: 100%;
-  max-width: 100%;
-  overflow-x: clip;
-}
-
-:focus-visible {
-  outline: 2px solid #fde047;
-  outline-offset: 3px;
+@keyframes sakura-drift {
+  0% { opacity: 0; transform: translate3d(0, -5vh, 0) rotate(0deg); }
+  8% { opacity: 0.72; }
+  48% { transform: translate3d(5rem, 48vh, 0) rotate(190deg); }
+  92% { opacity: 0.58; }
+  100% { opacity: 0; transform: translate3d(-3rem, 105vh, 0) rotate(390deg); }
 }
 
 main a[class*="rounded"],
@@ -80,9 +196,16 @@ main button[class*="rounded"] {
   touch-action: manipulation;
 }
 
-.community-copy {
-  font-family: "Segoe UI", Arial, sans-serif;
-  letter-spacing: normal;
+@media (min-width: 640px) {
+  .editorial-container {
+    width: min(100% - 3rem, 80rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .editorial-container {
+    width: min(100% - 4rem, 80rem);
+  }
 }
 
 @media (max-width: 640px) {
@@ -90,40 +213,20 @@ main button[class*="rounded"] {
     min-width: 0;
   }
 
-  main [class*="tracking-["] {
+  main [class*="tracking-\["] {
     letter-spacing: 0.12em;
-  }
-
-  main .p-6 {
-    padding: 1rem;
-  }
-
-  main .p-8,
-  main .p-10 {
-    padding: 1.25rem;
-  }
-
-  main .text-3xl {
-    font-size: 1.5rem;
-    line-height: 1.25;
   }
 
   main p {
     overflow-wrap: anywhere;
   }
 
-  main .rounded-3xl {
-    border-radius: 1.25rem;
-  }
-}
-
-@media (max-width: 380px) {
-  .community-copy {
-    font-size: 1rem;
+  .editorial-page::after {
+    display: none;
   }
 
-  main .text-4xl {
-    font-size: 1.875rem;
+  .sakura-petal:nth-child(even) {
+    display: none;
   }
 }
 
@@ -135,5 +238,9 @@ main button[class*="rounded"] {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .sakura-fall {
+    display: none;
   }
 }

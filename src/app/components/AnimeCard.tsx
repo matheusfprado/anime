@@ -1,63 +1,36 @@
-import Link from "next/link";
-import { AnimeSummary } from "@/types/anime";
-import { Stars } from "./Stars";
-import { PosterFallback } from "./PosterFallback";
+import Link from "next/link"
+import { ArrowRight, CalendarDays, Star } from "lucide-react"
 
-type Props = {
-  anime: AnimeSummary;
-};
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { AnimeSummary } from "@/types/anime"
+import { PosterFallback } from "./PosterFallback"
+
+type Props = { anime: AnimeSummary }
 
 export function AnimeCard({ anime }: Props) {
   return (
-    <div
-      key={anime.id}
-      className="grid gap-4 rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur-md md:min-h-[380px] md:grid-cols-[1fr_0.8fr]"
-    >
-      <div className="flex flex-col justify-center">
-        <h1 className="text-4xl font-extrabold text-yellow-300 drop-shadow-[0_0_20px_rgba(255,200,0,0.4)] md:text-6xl">
-          {anime.title}
-        </h1>
-        <div className="mt-3 flex items-center gap-3">
-          <Stars />
-          <span className="text-lg text-yellow-300">
-            {anime.score ? anime.score.toFixed(1) : "N/D"}
-          </span>
+    <article className="grid overflow-hidden rounded-[2rem] border border-border bg-white shadow-[0_24px_70px_rgba(58,30,38,0.1)] lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="flex flex-col justify-center p-6 sm:p-10 lg:p-14">
+        <div className="flex flex-wrap gap-2">
+          {anime.genres.slice(0, 3).map((genre) => <Badge key={genre} variant="secondary">{genre}</Badge>)}
         </div>
-        <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-200 line-clamp-3">
-          {anime.synopsis}
-        </p>
-
-        <div className="mt-4 space-y-1 text-sm text-zinc-400">
-          <p>
-            <span className="font-medium text-yellow-400">Gêneros:</span>{" "}
-            {anime.genres.length > 0 ? anime.genres.join(", ") : "Indefinido"}
-          </p>
-          <p>
-            <span className="font-medium text-yellow-400">Ano:</span>{" "}
-            {anime.year ?? "Desconhecido"}
-          </p>
-          <p>
-            <span className="font-medium text-yellow-400">Status:</span>{" "}
-            {anime.status ?? "Indefinido"}
-          </p>
+        <h1 className="mt-6 font-title text-4xl font-bold leading-[0.98] text-ink sm:text-5xl lg:text-6xl">{anime.title}</h1>
+        <div className="mt-5 flex flex-wrap items-center gap-5 text-sm text-muted-foreground">
+          <span className="flex items-center gap-2"><Star size={17} className="fill-sakura-400 text-sakura-400" />{anime.score?.toFixed(1) ?? "N/D"}</span>
+          <span className="flex items-center gap-2"><CalendarDays size={17} className="text-primary" />{anime.year ?? "Ano desconhecido"}</span>
+          {anime.status ? <Badge variant="outline">{anime.status}</Badge> : null}
         </div>
-
-        <div className="mt-5">
-          <Link
-            href={`/animes/${anime.id}`}
-            className="inline-flex min-h-11 items-center rounded-xl bg-gradient-to-b from-yellow-300 to-orange-500 px-5 text-sm font-semibold text-black shadow-[0_12px_30px_rgba(255,160,0,0.35)] transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-200"
-          >
-            Ver
-          </Link>
+        <p className="mt-6 line-clamp-4 max-w-2xl text-base leading-7 text-muted-foreground">{anime.synopsis}</p>
+        <div className="mt-8">
+          <Button size="lg" asChild><Link href={`/animes/${anime.id}`}>Abrir dossiê <ArrowRight /></Link></Button>
         </div>
       </div>
-
-      <div
-        key={anime.poster}
-        className="order-first relative h-[150px] overflow-hidden rounded-2xl bg-black/60 sm:h-[220px] md:order-none md:h-auto md:min-h-0"
-      >
+      <div className="relative order-first min-h-72 overflow-hidden bg-muted lg:order-none lg:min-h-[580px]">
         <PosterFallback title={anime.title} src={anime.poster} />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent" />
+        <span className="absolute bottom-5 right-5 font-title text-6xl font-bold text-white/70">作品</span>
       </div>
-    </div>
-  );
+    </article>
+  )
 }

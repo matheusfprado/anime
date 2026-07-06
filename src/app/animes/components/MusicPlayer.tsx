@@ -1,104 +1,18 @@
-"use client";
+"use client"
 
-import { useMemo, useState } from "react";
-import { AnimeSong } from "@/types/anime";
+import { ExternalLink, Music2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import type { AnimeSong } from "@/types/anime"
 
-type Props = {
-  songs: AnimeSong[];
-};
-
-export function MusicPlayer({ songs }: Props) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPlayerOpen, setIsPlayerOpen] = useState(false);
-
-  const activeSong = songs[activeIndex] ?? null;
-
-  const embedUrl = useMemo(() => {
-    if (!activeSong?.url) return null;
-    if (activeSong.url.includes("youtube.com/watch")) {
-      const idMatch = activeSong.url.match(/[?&]v=([^&]+)/);
-      if (idMatch) {
-        return `https://www.youtube.com/embed/${idMatch[1]}`;
-      }
-    }
-    return null;
-  }, [activeSong]);
-
+export function MusicPlayer({ songs }: { songs: AnimeSong[] }) {
   return (
-    <section className="space-y-4">
-      <header className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_16px_rgba(255,200,0,0.35)]">
-          Trilhas do anime
-        </h2>
-        {activeSong && (
-          <p className="text-xs uppercase tracking-[0.3em] text-yellow-200">
-            {activeSong.type}
-          </p>
-        )}
-      </header>
-
-      {songs.length === 0 ? (
-        <p className="text-sm text-zinc-300">
-          Não encontramos músicas automaticamente. Busque a trilha sonora oficial
-          deste anime em serviços como YouTube ou Spotify.
-        </p>
-      ) : (
-        <>
-          <div className="flex flex-wrap gap-3">
-            {songs.map((song, index) => (
-              <button
-                key={`${song.title}-${index}`}
-                onClick={() => {
-                  setActiveIndex(index);
-                  setIsPlayerOpen(false);
-                }}
-                className={`rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] transition ${
-                  index === activeIndex
-                    ? "border-yellow-300/70 bg-yellow-200/20 text-yellow-200 shadow-[0_0_16px_rgba(255,200,0,0.3)]"
-                    : "border-white/15 bg-white/5 text-white/70 hover:border-yellow-200/40"
-                }`}
-              >
-                {song.title}
-              </button>
-            ))}
-          </div>
-
-          {activeSong && embedUrl && isPlayerOpen ? (
-            <iframe
-              key={embedUrl}
-             
-              src={embedUrl}
-              title={activeSong.title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="aspect-video w-full rounded-3xl border border-white/10 bg-black/40 shadow-[0_0_40px_rgba(255,200,0,0.25)]"
-            />
-          ) : activeSong && embedUrl ? (
-            <button
-              type="button"
-              onClick={() => setIsPlayerOpen(true)}
-              className="aspect-video w-full rounded-3xl border border-white/10 bg-black/40 text-sm font-semibold uppercase tracking-[0.3em] text-yellow-200 transition hover:border-yellow-300/50"
-            >
-              carregar player
-            </button>
-          ) : (
-            <div className="rounded-3xl border border-white/10 bg-black/30 p-6 text-sm text-zinc-200">
-              {activeSong?.url ? (
-                <a
-                  href={activeSong.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-yellow-300 underline"
-                >
-                  Abrir música no MyAnimeList
-                </a>
-              ) : (
-                "Não foi possível identificar um link direto para reprodução."
-              )}
-            </div>
-          )}
-        </>
+    <section>
+      <header className="mb-6"><p className="editorial-kicker">Som</p><h2 className="mt-3 font-title text-3xl font-bold text-ink">Músicas do anime</h2></header>
+      {!songs.length ? <p className="text-sm text-muted-foreground">Nenhuma música foi encontrada para esta obra.</p> : (
+        <div className="divide-y divide-border rounded-2xl border border-border bg-white">{songs.map((song, index) => (
+          <div key={`${song.title}-${index}`} className="flex min-h-16 items-center gap-4 p-4"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sakura-100 text-primary"><Music2 size={18} /></span><div className="min-w-0 flex-1"><p className="truncate font-medium text-foreground">{song.title}</p><p className="text-xs text-muted-foreground">{song.type}</p></div>{song.url ? <Button variant="ghost" size="icon" asChild><a href={song.url} target="_blank" rel="noreferrer" aria-label={`Abrir ${song.title}`}><ExternalLink /></a></Button> : null}</div>
+        ))}</div>
       )}
     </section>
-  );
+  )
 }

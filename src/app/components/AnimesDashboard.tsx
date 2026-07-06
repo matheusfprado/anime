@@ -53,7 +53,7 @@ export default function AnimesDashboard({ categories }: Props) {
 
   if (!heroAnime) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-black text-zinc-300">
+      <main className="flex min-h-screen items-center justify-center bg-background text-muted-foreground">
         Não encontramos animes para exibir agora.
       </main>
     );
@@ -69,25 +69,18 @@ export default function AnimesDashboard({ categories }: Props) {
   };
 
   return (
-    <main className="relative min-h-dvh overflow-x-hidden overflow-y-auto text-white">
-      <div className="fixed inset-0 -z-50">
-        <div
-          key={heroAnime.id}
-          className="h-full w-full bg-[radial-gradient(circle_at_top_left,_rgba(250,204,21,0.18),_transparent_36%),radial-gradient(circle_at_bottom_right,_rgba(249,115,22,0.16),_transparent_42%),#050505]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/90" />
-      </div>
-      <header className="mx-auto mt-4 flex w-full max-w-6xl items-center justify-between px-4 sm:mt-6 sm:px-6">
+    <main className="editorial-page">
+      <header className="editorial-container flex items-center justify-between pt-8 sm:pt-12">
         <Link
           href="/"
-          className="flex items-center gap-2 rounded-xl border border-white/10 bg-black/30 px-4 py-2 text-sm font-medium text-yellow-400 hover:bg-white/10 transition"
+          className="flex items-center gap-2 rounded-xl border border-border bg-white px-4 py-2 text-sm font-medium text-foreground transition hover:bg-accent"
         >
           <ArrowLeft size={16} />
           Voltar
         </Link>
-        <div className="rounded-2xl border border-cyan-300/20 bg-black/30 p-1.5 backdrop-blur-md">
+        <div className="rounded-2xl border border-border bg-white p-1.5">
           <Image
-            src="/animeverse-logo.png"
+            src="/animeverse-logo-v2.png"
             alt="AnimeVerse"
             width={48}
             height={48}
@@ -95,10 +88,10 @@ export default function AnimesDashboard({ categories }: Props) {
           />
         </div>
       </header>
-      <section className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
+      <section className="editorial-container py-8 sm:py-10">
         <AnimeCard anime={heroDisplay} />
       </section>
-      <section className="relative z-10 mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
+      <section className="editorial-container pb-16 sm:pb-20">
         <CategoryTabs
           categories={categories}
           activeCategory={currentCategory?.name ?? activeCategory}

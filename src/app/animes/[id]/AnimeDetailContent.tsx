@@ -1,18 +1,21 @@
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-import { ANIME_CUSTOM_DATA } from '@/app/data/animeCustomData'
+import { ArrowLeft, CalendarDays, Clock3, Play, Star } from 'lucide-react'
+
 import { PosterFallback } from '@/app/components/PosterFallback'
-import { CharactersList } from '../components/CharactersList'
-import { WatchLinks } from '../components/WatchLinks'
-import { MangaList } from '../components/MangaList'
-import { MusicPlayer } from '../components/MusicPlayer'
-import {
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import type {
   AnimeCharacter,
   AnimeDetail,
-  StreamingLink,
-  MangaSuggestion,
   AnimeSong,
+  MangaSuggestion,
+  StreamingLink,
 } from '@/types/anime'
+import { CharactersList } from '../components/CharactersList'
+import { MangaList } from '../components/MangaList'
+import { MusicPlayer } from '../components/MusicPlayer'
+import { WatchLinks } from '../components/WatchLinks'
 
 type Props = {
   anime: AnimeDetail
@@ -29,369 +32,107 @@ export function AnimeDetailContent({
   mangas,
   songs,
 }: Props) {
-  const customization = ANIME_CUSTOM_DATA.find(
-    (entry) => entry.title === anime.title,
-  )
-
-  const synopsis = customization?.synopsis || anime.synopsis
-
-  const loreTimeline =
-    customization?.loreTimeline && customization.loreTimeline.length > 0
-      ? customization.loreTimeline
-      : [
-          {
-            era: 'Estreia',
-            highlight: anime.year
-              ? `${anime.title} chegou em ${anime.year} com ${anime.episodes ?? 'episódios em múltiplas fases'}. Recupere esse arco na nossa wiki colaborativa.`
-              : `${anime.title} estreou sem ano confirmado no Jikan, mas nossa comunidade mantém um guia atualizado com cada arco canon e filler.`,
-          },
-          {
-            era: 'Status',
-            highlight: anime.status
-              ? `Status oficial: ${anime.status}. Atualizamos teorias de continuidade toda semana na guilda Lore Nexus.`
-              : 'Status não informado pela API. Consulte o canal #lore-tracker para atualizações crowdsourced.',
-          },
-          ...(streaming.length > 0
-            ? [
-                {
-                  era: 'Watch parties',
-                  highlight: `Organize sessões simultâneas usando ${streaming
-                    .slice(0, 2)
-                    .map((item) => item.name)
-                    .join(' e ')} diretamente pelo hub do AnimeVerse.`,
-                },
-              ]
-            : []),
-        ]
-
-  const crossMedia = dedupeByTitle([
-    ...(customization?.crossMedia ?? []),
-    ...mangas.slice(0, 3).map((manga) => ({
-      title: `Mangá: ${manga.title}`,
-      type: 'Mangá',
-      url: manga.url,
-    })),
-    ...streaming.slice(0, 2).map((service) => ({
-      title: service.name,
-      type: 'Streaming',
-      url: service.url,
-    })),
-    ...songs.slice(0, 2).map((song) => ({
-      title: song.title,
-      type: song.type,
-      url: song.url ?? undefined,
-    })),
-  ]).slice(0, 6)
-
-  const collectibles =
-    customization?.collectibles && customization.collectibles.length > 0
-      ? customization.collectibles
-      : [
-          {
-            name: `Blueprint ${anime.title}`,
-            description:
-              'Kit colaborativo para imprimir em 3D ou laser-cut os itens icônicos desta franquia. Disponível no canal.',
-          },
-          {
-            name: 'Badge AnimeVerse Prime',
-            description:
-              'Conquiste o emblema digital participando de uma missão semanal da sua guilda e sincronize com seu perfil no site.',
-            link: 'https://discord.gg/animeverse',
-          },
-        ]
-
-  const trivia =
-    customization?.trivia && customization.trivia.length > 0
-      ? customization.trivia
-      : [
-          anime.score
-            ? `No AnimeVerse, ${anime.title} mantém média ${anime.score.toFixed(
-                1,
-              )} ⭐ com ênfase em cinematografia.`
-            : `${anime.title} ainda não tem nota consolidada — registre a sua impressão para ajudar a ranquear nos dashboards da comunidade.`,
-          anime.duration
-            ? `Cada episódio tem duração média de ${anime.duration}. Use nosso planner automático para maratonar a temporada em watch parties.`
-            : 'Combine watch parties com nosso planner automático e defina checkpoints para debates sem spoilers.',
-        ]
-
-  const communityHooks =
-    customization?.communityHooks && customization.communityHooks.length > 0
-      ? customization.communityHooks
-      : [
-          {
-            title: 'Sala de Guilda',
-            description: `Entre na sala dedicada a ${anime.title} no Discord, desbloqueie cargos exclusivos e compartilhe threads de teoria.`,
-            link: 'https://discord.gg/animeverse',
-          },
-          {
-            title: 'Watch parties ranqueadas',
-            description:
-              'Participe de maratonas com scoreboard gamificado e conquiste adesivos digitais para o seu perfil.',
-          },
-        ]
-
   return (
-    <main className="relative min-h-dvh overflow-y-auto text-white">
-      <div
-        key={anime.id}
-        className="absolute inset-0 -z-50 bg-[radial-gradient(circle_at_top_left,_rgba(250,204,21,0.18),_transparent_38%),radial-gradient(circle_at_bottom_right,_rgba(249,115,22,0.14),_transparent_42%),#050505]"
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/55 to-black/90" />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-6xl space-y-10 px-4 py-8 sm:space-y-16 sm:px-6 sm:py-14 lg:space-y-20">
-        <div>
-          <Link
-            href="/animes"
-            className="flex items-center gap-2 text-yellow-400 transition-colors hover:text-yellow-300"
-          >
-            <ArrowLeft size={20} />
-            <span className="font-medium">Voltar</span>
+    <main className="editorial-page">
+      <div className="editorial-container py-8 sm:py-12">
+        <Button variant="ghost" asChild className="mb-6 -ml-3">
+          <Link href="/animes">
+            <ArrowLeft /> Voltar ao catálogo
           </Link>
-        </div>
+        </Button>
 
-        <div className="flex flex-col gap-10 lg:flex-row">
-          <div className="flex-1 space-y-6">
-            <h1 className="mb-4 break-words text-4xl font-extrabold leading-tight text-yellow-300 drop-shadow-[0_0_25px_rgba(255,200,0,0.5)] sm:text-5xl md:text-6xl">
+        <section className="grid overflow-hidden rounded-[2rem] border border-border bg-white shadow-sm lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="relative min-h-[440px] bg-muted lg:min-h-[680px]">
+            <PosterFallback title={anime.title} src={anime.poster} />
+          </div>
+          <div className="flex flex-col justify-center p-6 sm:p-10 lg:p-14">
+            <p className="editorial-kicker">Ficha da obra</p>
+            <h1 className="mt-5 font-title text-4xl font-bold leading-[0.95] text-ink sm:text-5xl lg:text-6xl">
               {anime.title}
             </h1>
-
-            <div className="rounded-3xl border border-white/10 bg-black/40 p-6 backdrop-blur">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.3em] text-yellow-200">
-                Sinopse
-              </h2>
-              <p className="mt-3 max-w-2xl leading-relaxed text-zinc-200">
-                {synopsis}
-              </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {anime.genres.map((genre) => (
+                <Badge key={genre} variant="secondary">
+                  {genre}
+                </Badge>
+              ))}
             </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <InfoRow
-                label="Gêneros"
-                value={
-                  anime.genres.length > 0
-                    ? anime.genres.join(', ')
-                    : 'Indefinido'
-                }
-              />
-              <InfoRow label="Ano" value={anime.year ?? 'Desconhecido'} />
-              <InfoRow
-                label="Temporada"
-                value={anime.season ?? 'Não informado'}
-              />
-              <InfoRow label="Status" value={anime.status ?? 'Indefinido'} />
-              <InfoRow
-                label="Nota"
-                value={anime.score ? anime.score.toFixed(1) : 'N/D'}
-              />
-              <InfoRow
-                label="Episódios"
-                value={anime.episodes ?? 'Desconhecido'}
-              />
-              <InfoRow label="Duração" value={anime.duration ?? 'Indefinido'} />
-            </div>
-          </div>
-
-          <div className="flex-1">
-            <div className="overflow-hidden rounded-3xl border border-white/15 bg-black/40 p-6 backdrop-blur">
-              <div className="relative aspect-[2/3] min-h-[360px] overflow-hidden rounded-2xl border border-white/10 sm:min-h-[440px] lg:min-h-[520px]">
-                <PosterFallback title={anime.title} src={anime.poster} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-yellow-500/40 to-transparent" />
-
-        <div id="personagens">
-          <CharactersList characters={characters} />
-        </div>
-
-        <div id="watch">
-          <WatchLinks links={streaming} />
-        </div>
-
-        <section className="space-y-6">
-          <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
-            Mangás relacionados
-          </h2>
-          <MangaList items={mangas} />
-        </section>
-
-        <section className="space-y-6">
-          <MusicPlayer songs={songs} />
-        </section>
-
-        <section id="lore" className="space-y-6">
-          <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
-            Linha do tempo & Lore da Guilda
-          </h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            {loreTimeline.map((node, index) => (
-              <article
-                key={`${node.era}-${index}`}
-                className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/35 p-5 backdrop-blur"
-              >
-                <span className="text-xs uppercase tracking-[0.35em] text-yellow-200">
-                  {node.era}
+            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm text-muted-foreground">
+              {anime.score ? (
+                <span className="flex items-center gap-2">
+                  <Star size={17} className="fill-sakura-400 text-sakura-400" />
+                  {anime.score.toFixed(1)}
                 </span>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-100">
-                  {node.highlight}
-                </p>
-                <div className="absolute inset-x-0 bottom-0 h-[2px] bg-gradient-to-r from-transparent via-yellow-400/50 to-transparent" />
-              </article>
-            ))}
+              ) : null}
+              {anime.year ? (
+                <span className="flex items-center gap-2">
+                  <CalendarDays size={17} />
+                  {anime.year}
+                </span>
+              ) : null}
+              {anime.episodes ? (
+                <span className="flex items-center gap-2">
+                  <Play size={17} />
+                  {anime.episodes} episódios
+                </span>
+              ) : null}
+              {anime.duration ? (
+                <span className="flex items-center gap-2">
+                  <Clock3 size={17} />
+                  {anime.duration}
+                </span>
+              ) : null}
+            </div>
+            <Separator className="my-7" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-primary">
+              Sinopse
+            </h2>
+            <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
+              {anime.synopsis}
+            </p>
+            <dl className="mt-8 grid gap-4 border-t border-border pt-6 sm:grid-cols-2">
+              <Info label="Status" value={anime.status} />
+              <Info label="Temporada" value={anime.season} />
+            </dl>
           </div>
         </section>
 
-        <section id="colecionaveis" className="space-y-6">
-          <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
-            Vault de colecionáveis
-          </h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {collectibles.map((item) => (
-              <div
-                key={item.name}
-                className="rounded-2xl border border-white/10 bg-black/35 p-5 backdrop-blur"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-lg font-semibold text-white drop-shadow-[0_0_14px_rgba(255,200,0,0.35)]">
-                    {item.name}
-                  </h3>
-                  {item.link && !item.link.includes('discord.gg') ? (
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs uppercase tracking-[0.35em] text-yellow-200 underline"
-                    >
-                      abrir
-                    </a>
-                  ) : item.link ? (
-                    <span className="text-xs uppercase tracking-[0.2em] text-cyan-200">Em breve</span>
-                  ) : null}
-                </div>
-                <p className="mt-2 text-sm text-zinc-200">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="cross-media" className="space-y-6">
-          <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
-            Multiverso conectado
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {crossMedia.map((entry, index) => (
-              <a
-                key={`${entry.title}-${index}`}
-                href={entry.url ?? '#'}
-                target={entry.url ? '_blank' : undefined}
-                rel={entry.url ? 'noopener noreferrer' : undefined}
-                className="flex flex-col justify-between rounded-2xl border border-white/10 bg-black/35 p-5 text-left transition hover:border-yellow-400/50 hover:shadow-[0_0_18px_rgba(255,200,0,0.28)]"
-              >
-                <div>
-                  <span className="text-xs uppercase tracking-[0.35em] text-yellow-200">
-                    {entry.type ?? 'Experiência'}
-                  </span>
-                  <p className="mt-3 text-sm font-medium text-white">
-                    {entry.title}
-                  </p>
-                </div>
-                {entry.url ? (
-                  <span className="mt-4 text-xs uppercase tracking-[0.35em] text-yellow-100">
-                    explorar ↗
-                  </span>
-                ) : (
-                  <span className="mt-4 text-xs uppercase tracking-[0.35em] text-zinc-400">
-                    recomendado pela guilda
-                  </span>
-                )}
-              </a>
-            ))}
-          </div>
-        </section>
-
-        <section id="trivia" className="space-y-6">
-          <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
-            Trivia & easter eggs
-          </h2>
-          <ul className="space-y-3 text-sm leading-relaxed text-zinc-100">
-            {trivia.map((fact, index) => (
-              <li
-                key={`${index}-${fact.slice(0, 12)}`}
-                className="flex items-start gap-3 rounded-2xl border border-white/10 bg-black/35 p-4"
-              >
-                <span className="mt-1 block h-2 w-2 rounded-full bg-yellow-300" />
-                <span>{fact}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section id="comunidade" className="space-y-6">
-          <h2 className="text-3xl font-extrabold text-yellow-300 drop-shadow-[0_0_18px_rgba(255,200,0,0.4)]">
-            Playbook da comunidade
-          </h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {communityHooks.map((hook) => (
-              <div
-                key={hook.title}
-                className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-black/35 p-5"
-              >
-                <div>
-                  <h3 className="text-lg font-semibold text-white drop-shadow-[0_0_12px_rgba(255,200,0,0.35)]">
-                    {hook.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-zinc-200">
-                    {hook.description}
-                  </p>
-                </div>
-                {hook.link && !hook.link.includes('discord.gg') ? (
-                  <a
-                    href={hook.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-yellow-200 underline"
-                  >
-                    participar ↗
-                  </a>
-                ) : hook.link ? (
-                  <span className="mt-4 text-xs uppercase tracking-[0.2em] text-cyan-200">Em breve</span>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </section>
+        <div className="mt-16 space-y-16">
+          <section id="personagens">
+            <CharactersList characters={characters} />
+          </section>
+          <section id="watch">
+            <WatchLinks links={streaming} />
+          </section>
+          <section>
+            <SectionTitle eyebrow="Leitura" title="Mangás relacionados" />
+            <MangaList items={mangas} />
+          </section>
+          <MusicPlayer songs={songs} />
+        </div>
       </div>
     </main>
   )
 }
 
-type InfoRowProps = {
-  label: string
-  value: string | number | null
-}
-
-function InfoRow({ label, value }: InfoRowProps) {
-  const display = value === null || value === undefined ? '—' : String(value)
+function Info({ label, value }: { label: string; value: string | null }) {
   return (
-    <p className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-zinc-200">
-      <strong className="text-yellow-400">{label}:</strong> {display}
-    </p>
+    <div>
+      <dt className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </dt>
+      <dd className="mt-1 text-sm font-medium text-foreground">
+        {value ?? 'Não informado'}
+      </dd>
+    </div>
   )
 }
 
-type TitleLike = {
-  title: string
-}
-
-function dedupeByTitle<T extends TitleLike>(list: T[]): T[] {
-  const seen = new Set<string>()
-  return list.filter((item) => {
-    const key = item.title.toLowerCase()
-    if (seen.has(key)) return false
-    seen.add(key)
-    return true
-  })
+function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <header className="mb-6">
+      <p className="editorial-kicker">{eyebrow}</p>
+      <h2 className="mt-3 font-title text-3xl font-bold text-ink">{title}</h2>
+    </header>
+  )
 }

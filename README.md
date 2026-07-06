@@ -81,6 +81,16 @@ pnpm dev
 
 Abra [http://localhost:3000](http://localhost:3000).
 
+### Modelagem 3D local
+
+O Ateliê 3D usa Ollama e não depende de créditos de API:
+
+```bash
+ollama pull qwen2.5-coder:7b
+```
+
+Copie `.env.example` para `.env.local` apenas se quiser alterar o endereço ou o modelo padrão.
+
 ### Qualidade e validação
 
 ```bash

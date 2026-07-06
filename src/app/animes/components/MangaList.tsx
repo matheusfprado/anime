@@ -1,66 +1,14 @@
-import Image from "next/image";
-import { MangaSuggestion } from "@/types/anime";
+import Image from "next/image"
+import { ExternalLink } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import type { MangaSuggestion } from "@/types/anime"
 
-type MangaListProps = {
-  items: MangaSuggestion[];
-};
-
-export function MangaList({ items }: MangaListProps) {
-  if (items.length === 0) {
-    return (
-      <p className="text-sm text-zinc-300">
-        Nenhum mangá relacionado encontrado automaticamente. Tente pesquisar por
-        este título na MangaDex para mais opções.
-      </p>
-    );
-  }
-
-  return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {items.map((manga) => (
-        <article
-          key={manga.id}
-         
-          className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/40"
-        >
-          {manga.cover ? (
-            <Image
-              src={manga.cover}
-              alt={manga.title}
-              width={256}
-              height={360}
-              className="h-48 w-full object-cover"
-              loading="lazy"
-              sizes="(max-width: 1024px) 50vw, 33vw"
-            />
-          ) : (
-            <div className="flex h-48 items-center justify-center bg-gradient-to-br from-orange-500/20 to-amber-500/20 text-xs uppercase tracking-[0.3em] text-amber-100">
-              Sem capa
-            </div>
-          )}
-
-          <div className="flex flex-1 flex-col gap-3 p-5">
-            <h3 className="text-base font-semibold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
-              {manga.title}
-            </h3>
-            <p className="max-h-28 overflow-y-auto rounded-lg bg-black/30 p-3 text-xs leading-relaxed text-zinc-300">
-              {manga.description}
-            </p>
-
-            <div className="mt-auto">
-              <a
-                href={manga.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-orange-400/50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-orange-100 transition hover:border-orange-300 hover:text-orange-50"
-              >
-                Ler na MangaDex
-                <span aria-hidden>↗</span>
-              </a>
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-  );
+export function MangaList({ items }: { items: MangaSuggestion[] }) {
+  if (!items.length) return <p className="text-sm text-muted-foreground">Nenhum mangá relacionado foi encontrado.</p>
+  return <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{items.slice(0, 8).map((manga) => (
+    <article key={manga.id} className="flex overflow-hidden rounded-2xl border border-border bg-white sm:flex-col">
+      <div className="relative h-44 w-28 shrink-0 bg-muted sm:aspect-[2/3] sm:h-auto sm:w-full">{manga.cover ? <Image src={manga.cover} alt={`Capa de ${manga.title}`} fill className="object-cover" sizes="(max-width: 640px) 112px, 25vw" /> : <div className="grid h-full place-items-center text-xs text-muted-foreground">Sem capa</div>}</div>
+      <div className="flex flex-1 flex-col p-4"><h3 className="line-clamp-2 font-title text-lg font-bold text-ink">{manga.title}</h3><p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">{manga.description}</p><Button variant="link" className="mt-auto h-auto justify-start px-0 pt-4" asChild><a href={manga.url} target="_blank" rel="noreferrer">MangaDex <ExternalLink /></a></Button></div>
+    </article>
+  ))}</div>
 }
