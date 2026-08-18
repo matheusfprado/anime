@@ -544,7 +544,7 @@ export async function fetchAnimeCharacters(
       .map((entry) => ({
         id: entry.character.mal_id,
         name: entry.character.name ?? "Personagem",
-        role: entry.role ?? "NÃ£o informado",
+        role: entry.role ?? "Não informado",
         image:
           entry.character.images?.webp?.image_url ??
           entry.character.images?.jpg?.image_url ??

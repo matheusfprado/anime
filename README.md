@@ -81,15 +81,16 @@ pnpm dev
 
 Abra [http://localhost:3000](http://localhost:3000).
 
-### Modelagem 3D local
+### Geração de imagem online
 
-O Ateliê 3D usa Ollama e não depende de créditos de API:
+O Ateliê 3D usa a API online do Gemini para gerar renders PNG como referência visual:
 
-```bash
-ollama pull qwen2.5-coder:7b
+```env
+GEMINI_API_KEY=sua_chave_gemini
+GEMINI_IMAGE_MODEL=gemini-3.1-flash-image
 ```
 
-Copie `.env.example` para `.env.local` apenas se quiser alterar o endereço ou o modelo padrão.
+Copie `.env.example` para `.env.local` e configure sua chave antes de usar a geração.
 
 ### Qualidade e validação
 

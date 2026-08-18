@@ -13,7 +13,7 @@ const routes = [
   { title: "Lore", copy: "Cronologias, teorias e conexões entre diferentes mídias.", href: "/lore", icon: BookOpenText, jp: "物語" },
   { title: "Comunidade", copy: "Discussões organizadas e projetos feitos por fãs.", href: "/comunidade", icon: Users, jp: "仲間" },
   { title: "Eventos", copy: "Watch parties e encontros organizados pela comunidade.", href: "/eventos", icon: CalendarDays, jp: "予定" },
-  { title: "Ateliê 3D", copy: "Crie modelos paramétricos para preparar no OpenSCAD.", href: "/colecionaveis", icon: Sparkles, jp: "造形" },
+  { title: "Ateliê 3D", copy: "Gere referências visuais online para colecionáveis.", href: "/colecionaveis", icon: Sparkles, jp: "造形" },
 ]
 
 export default function Home() {
